@@ -9,11 +9,17 @@
         }
 
         public function findByEmail($email) {
-            $stmt = $this->db->prepare("SELECT id, nome_usuario, email, senha, role, status FROM usuarios WHERE email = :email LIMIT 1");
+            $stmt = $this->db->prepare("SELECT id, nome_usuario, email, senha, role, status, banido_ate FROM usuarios WHERE email = :email LIMIT 1");
             $stmt->execute(array('email' => $email));
             
             $usuario = $stmt->fetch();
             return $usuario ? $usuario : null;
+        }
+
+        // Novo método para o sistema perdoar a alma automaticamente
+        public function revogarBanimento($id) {
+            $stmt = $this->db->prepare("UPDATE usuarios SET status = 'ativo', banido_ate = NULL WHERE id = :id");
+            return $stmt->execute(array('id' => $id));
         }
 
         public function create($nomeUsuario, $email, $senha) {

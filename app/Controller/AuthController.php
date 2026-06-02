@@ -14,13 +14,33 @@
             $usuario = $this->usuarioModel->findByEmail($email);
 
             if ($usuario && password_verify($senha, $usuario['senha'])) {
+                
+                // Verificação do Purgatório (Sistema de Banimento)
                 if ($usuario['status'] === 'banido') {
-                    Session::set('erro', 'Sua alma foi banida deste plano.');
-                    header('Location: /login');
-                    exit;
+                    if ($usuario['banido_ate'] !== null) {
+                        $dataExpiracao = strtotime($usuario['banido_ate']);
+                        
+                        if (time() > $dataExpiracao) {
+                            // O tempo de punição expirou. A alma está perdoada.
+                            $this->usuarioModel->revogarBanimento($usuario['id']);
+                            $usuario['status'] = 'ativo'; 
+                        } else {
+                            // Ainda está banido temporariamente
+                            $dataAtualizada = date('d/m/Y \à\s H:i', $dataExpiracao);
+                            Session::set('erro', "Sua alma foi exilada do Vácuo até {$dataAtualizada}. Aguarde sua redenção.");
+                            header('Location: /login');
+                            exit;
+                        }
+                    } else {
+                        // Banido_ate é nulo, logo é banimento permanente
+                        Session::set('erro', 'Sua alma foi banida permanentemente. O Vácuo o rejeita.');
+                        header('Location: /login');
+                        exit;
+                    }
                 }
 
-                Session::regenerate(); // Segurança: renova o ID da sessão após login
+                // Se o status for ativo (ou foi perdoado agora), prossegue com o login
+                Session::regenerate(); 
                 Session::set('user_id', $usuario['id']);
                 Session::set('user_name', $usuario['nome_usuario']);
                 Session::set('user_role', $usuario['role']);
