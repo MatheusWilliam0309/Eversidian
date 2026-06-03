@@ -13,6 +13,10 @@
     require_once __DIR__ . '/app/Core/Session.php';
     Session::start();
 
+    // Define o diretório base APENAS para os redirecionamentos do PHP (Headers)
+    $pastaBase = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
+    define('BASE_DIR', $pastaBase);
+
     // =========================================================================
     // 2. CAPTURA E LIMPEZA DA URL
     // =========================================================================
@@ -41,10 +45,6 @@
             require_once __DIR__ . '/app/View/Auth/login.php';
             break;
 
-        case 'cadastro':
-            require_once __DIR__ . '/app/View/Auth/cadastro.php';
-            break;
-
         case 'login-processar':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 require_once __DIR__ . '/app/Controller/AuthController.php';
@@ -52,6 +52,18 @@
                 $auth->postLogin($_POST['email'], $_POST['senha']);
             }
             break;
+
+        case 'cadastro':
+            require_once __DIR__ . '/app/View/Auth/cadastro.php';
+            break;
+
+        case 'cadastro-processar':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_once __DIR__ . '/app/Controller/AuthController.php';
+            $auth = new AuthController();
+            $auth->postCadastro($_POST); // Assumindo que criará este método no AuthController
+        }
+        break;
 
         case 'logout':
             require_once __DIR__ . '/app/Controller/AuthController.php';

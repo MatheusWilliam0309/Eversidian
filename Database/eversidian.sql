@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 27-Maio-2026 às 22:30
+-- Tempo de geração: 03-Jun-2026 às 20:54
 -- Versão do servidor: 10.4.24-MariaDB
 -- versão do PHP: 8.1.6
 
@@ -130,6 +130,23 @@ CREATE TABLE `conquistas` (
   `recompensa` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `cronicas`
+--
+
+CREATE TABLE `cronicas` (
+  `id` int(11) NOT NULL,
+  `id_autor` int(11) NOT NULL,
+  `id_campanha` int(11) DEFAULT NULL,
+  `titulo` varchar(150) NOT NULL,
+  `categoria` varchar(50) DEFAULT NULL,
+  `resumo` text DEFAULT NULL,
+  `conteudo` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -608,9 +625,17 @@ CREATE TABLE `usuarios` (
   `foto_perfil` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `role` enum('jogador','moderador','gmAdmin') COLLATE utf8mb4_unicode_ci DEFAULT 'jogador',
   `status` enum('ativo','banido','inativo') COLLATE utf8mb4_unicode_ci DEFAULT 'ativo',
+  `banido_ate` datetime DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `nome_usuario`, `email`, `senha`, `foto_perfil`, `role`, `status`, `banido_ate`, `created_at`, `updated_at`) VALUES
+(1, 'Shenlord', 'matheus@gmail.com', '$2a$10$O0Hi2Wu02ZzfMt3N8mBucelZF.friqClQTVpKAJ.zG4igCZgsNhM2', NULL, 'jogador', 'ativo', NULL, '2026-06-03 17:54:33', '2026-06-03 18:51:58');
 
 --
 -- Índices para tabelas despejadas
@@ -672,6 +697,14 @@ ALTER TABLE `classes`
 --
 ALTER TABLE `conquistas`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `cronicas`
+--
+ALTER TABLE `cronicas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_autor` (`id_autor`),
+  ADD KEY `id_campanha` (`id_campanha`);
 
 --
 -- Índices para tabela `efeitos`
@@ -948,6 +981,12 @@ ALTER TABLE `conquistas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de tabela `cronicas`
+--
+ALTER TABLE `cronicas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `efeitos`
 --
 ALTER TABLE `efeitos`
@@ -1131,7 +1170,7 @@ ALTER TABLE `racas`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restrições para despejos de tabelas
@@ -1164,6 +1203,13 @@ ALTER TABLE `carrinho`
 ALTER TABLE `carrinho_itens`
   ADD CONSTRAINT `carrinho_itens_ibfk_1` FOREIGN KEY (`id_carrinho`) REFERENCES `carrinho` (`id`),
   ADD CONSTRAINT `carrinho_itens_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`);
+
+--
+-- Limitadores para a tabela `cronicas`
+--
+ALTER TABLE `cronicas`
+  ADD CONSTRAINT `cronicas_ibfk_1` FOREIGN KEY (`id_autor`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `cronicas_ibfk_2` FOREIGN KEY (`id_campanha`) REFERENCES `campanhas` (`id`);
 
 --
 -- Limitadores para a tabela `guildas`

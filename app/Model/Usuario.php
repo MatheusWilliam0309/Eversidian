@@ -22,6 +22,19 @@
             return $stmt->execute(array('id' => $id));
         }
 
+        /**
+         * Verifica se já existe algum escriba com o mesmo nome ou email.
+         */
+        public function checkExists($email, $nomeUsuario) {
+            $stmt = $this->db->prepare("SELECT id FROM usuarios WHERE email = :email OR nome_usuario = :nome LIMIT 1");
+            $stmt->execute(array(
+                'email' => $email,
+                'nome' => $nomeUsuario
+            ));
+            
+            return $stmt->fetch() ? true : false;
+        }
+
         public function create($nomeUsuario, $email, $senha) {
             // Criptografia irreversível da senha (RN004)
             $senhaHash = password_hash($senha, PASSWORD_DEFAULT);

@@ -28,13 +28,13 @@
                             // Ainda está banido temporariamente
                             $dataAtualizada = date('d/m/Y \à\s H:i', $dataExpiracao);
                             Session::set('erro', "Sua alma foi exilada do Vácuo até {$dataAtualizada}. Aguarde sua redenção.");
-                            header('Location: /login');
+                            header('Location:' . BASE_DIR . ' /login');
                             exit;
                         }
                     } else {
                         // Banido_ate é nulo, logo é banimento permanente
                         Session::set('erro', 'Sua alma foi banida permanentemente. O Vácuo o rejeita.');
-                        header('Location: /login');
+                        header('Location:' . BASE_DIR . ' /login');
                         exit;
                     }
                 }
@@ -45,49 +45,63 @@
                 Session::set('user_name', $usuario['nome_usuario']);
                 Session::set('user_role', $usuario['role']);
 
-                header('Location: /campanhas');
+                header('Location:' . BASE_DIR . ' /campanhas');
                 exit;
             }
 
             Session::set('erro', 'Credenciais inválidas. O Vácuo não reconhece você.');
-            header('Location: /login');
+            header('Location:' . BASE_DIR . ' /login');
             exit;
         }
 
-        public function postCadastro($nome, $email, $senha, $senhaConfirmar) {
-            if ($senha !== $senhaConfirmar) {
-                Session::set('erro', 'As senhas não coincidem.');
-                header('Location: /cadastro');
+        public function postCadastro($postData) {
+            // Higienização básica dos dados de entrada
+            $nome = trim($postData['nome_usuario']);
+            $email = trim($postData['email']);
+            $senha = $postData['senha'];
+    
+            // 1. Validação de campos vazios
+            if (empty($nome) || empty($email) || empty($senha)) {
+                Session::set('erro', 'Todos os selos devem ser preenchidos para concluir o rito.');
+                header('Location: ' . BASE_DIR . '/cadastro');
                 exit;
             }
-
-            if (strlen($senha) < 8) {
-                Session::set('erro', 'A senha deve possuir no mínimo 8 caracteres.');
-                header('Location: /cadastro');
+    
+            // 2. Verifica se o Vácuo já possui este email ou utilizador
+            if ($this->usuarioModel->checkExists($email, $nome)) {
+                Session::set('erro', 'Esta identidade ou selo de contacto já estão gravados nas pedras. Escolha outros.');
+                header('Location: ' . BASE_DIR . '/cadastro');
                 exit;
             }
-
-            if ($this->usuarioModel->findByEmail($email)) {
-                Session::set('erro', 'Este pergaminho já está vinculado a outro Escriba (Email em uso).');
-                header('Location: /cadastro');
+    
+            // 3. Validação do tamanho da palavra-passe (Opcional, mas recomendado)
+            if (strlen($senha) < 6) {
+                Session::set('erro', 'Sua palavra de poder é demasiado fraca. Use pelo menos 6 caracteres.');
+                header('Location: ' . BASE_DIR . '/cadastro');
                 exit;
             }
-
-            if ($this->usuarioModel->create($nome, $email, $senha)) {
-                Session::set('sucesso', 'Pacto selado com sucesso. Você já pode adentrar o Vácuo.');
-                header('Location: /login');
-                exit;
+    
+            // 4. Encriptação segura da palavra-passe (NUNCA guardar em texto limpo)
+            $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+    
+            // 5. Tenta criar o registo na base de dados
+            if ($this->usuarioModel->create($nome, $email, $senhaHash)) {
+                // Registo bem-sucedido: Redireciona para o Login com mensagem de sucesso
+                Session::set('sucesso', 'O seu pacto foi selado com sucesso. Pode despertar agora.');
+                header('Location: ' . BASE_DIR . '/login');
             } else {
-                Session::set('erro', 'Uma falha mística ocorreu. Tente novamente.');
-                header('Location: /cadastro');
-                exit;
+                // Falha genérica (ex: erro no servidor de base de dados)
+                Session::set('erro', 'As estrelas não estão alinhadas. Falha ao forjar o pacto.');
+                header('Location: ' . BASE_DIR . '/cadastro');
             }
+            
+            exit;
         }
 
         public function logout() {
             Session::start();
             Session::destroy();
-            header('Location: /');
+            header('Location:' . BASE_DIR . ' /');
             exit;
         }
     }

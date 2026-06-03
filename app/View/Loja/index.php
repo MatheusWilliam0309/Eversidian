@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Arsenal do Vácuo | Eversidian</title>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&family=Manrope:wght@300..700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <link href="../assets/css/style.css" rel="stylesheet"/>
+    <link href="./public/assets/css/style.css" rel="stylesheet"/>
 </head>
 <body class="bg-surface text-on-surface font-body flex flex-col min-h-screen">
     <?php include_once __DIR__ . '/../Components/header.php'; ?>
