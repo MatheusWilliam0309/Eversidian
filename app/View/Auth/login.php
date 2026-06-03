@@ -9,7 +9,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Adentrar o Vácuo | Eversidian</title>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&family=Manrope:wght@300..700&display=swap" rel="stylesheet"/>
-    <link href="/assets/style.css" rel="stylesheet"/>
+    <link href="./Public/Assets/css/style.css" rel="stylesheet"/>
 </head>
 <body class="bg-surface text-on-surface font-body min-h-screen flex items-center justify-center relative overflow-hidden">
     
