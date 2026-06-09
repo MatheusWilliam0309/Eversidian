@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03-Jun-2026 às 20:54
--- Versão do servidor: 10.4.24-MariaDB
--- versão do PHP: 8.1.6
+-- Tempo de geração: 09/06/2026 às 03:21
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,36 +24,36 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `amizades`
+-- Estrutura para tabela `amizades`
 --
 
 CREATE TABLE `amizades` (
   `id` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `id_amigo` int(11) NOT NULL,
-  `status` enum('pendente','aceito','rejeitado') COLLATE utf8mb4_unicode_ci DEFAULT 'pendente',
+  `status` enum('pendente','aceito','rejeitado') DEFAULT 'pendente',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `campanhas`
+-- Estrutura para tabela `campanhas`
 --
 
 CREATE TABLE `campanhas` (
   `id` int(11) NOT NULL,
-  `titulo` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `titulo` varchar(150) NOT NULL,
+  `descricao` text DEFAULT NULL,
   `max_jogadores` int(11) DEFAULT 5,
-  `status` enum('aberto','fechado','finalizado') COLLATE utf8mb4_unicode_ci DEFAULT 'aberto',
+  `status` enum('aberto','fechado','finalizado') DEFAULT 'aberto',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `campanha_participantes`
+-- Estrutura para tabela `campanha_participantes`
 --
 
 CREATE TABLE `campanha_participantes` (
@@ -61,14 +61,14 @@ CREATE TABLE `campanha_participantes` (
   `id_campanha` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `id_personagem` int(11) DEFAULT NULL,
-  `papel` enum('jogador','mestre','co_mestre') COLLATE utf8mb4_unicode_ci DEFAULT 'jogador',
+  `papel` enum('jogador','mestre','co_mestre') DEFAULT 'jogador',
   `joined_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `carrinho`
+-- Estrutura para tabela `carrinho`
 --
 
 CREATE TABLE `carrinho` (
@@ -80,7 +80,7 @@ CREATE TABLE `carrinho` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `carrinho_itens`
+-- Estrutura para tabela `carrinho_itens`
 --
 
 CREATE TABLE `carrinho_itens` (
@@ -93,25 +93,25 @@ CREATE TABLE `carrinho_itens` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `categorias`
+-- Estrutura para tabela `categorias`
 --
 
 CREATE TABLE `categorias` (
   `id` int(11) NOT NULL,
-  `nome` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `nome` varchar(100) NOT NULL,
+  `descricao` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `classes`
+-- Estrutura para tabela `classes`
 --
 
 CREATE TABLE `classes` (
   `id` int(11) NOT NULL,
-  `nome` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome` varchar(50) NOT NULL,
+  `descricao` text DEFAULT NULL,
   `bonus_vida` int(11) DEFAULT 0,
   `bonus_mana` int(11) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -120,21 +120,21 @@ CREATE TABLE `classes` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `conquistas`
+-- Estrutura para tabela `conquistas`
 --
 
 CREATE TABLE `conquistas` (
   `id` int(11) NOT NULL,
-  `nome` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `recompensa` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome` varchar(100) NOT NULL,
+  `descricao` text DEFAULT NULL,
+  `recompensa` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cronicas`
+-- Estrutura para tabela `cronicas`
 --
 
 CREATE TABLE `cronicas` (
@@ -146,19 +146,19 @@ CREATE TABLE `cronicas` (
   `resumo` text DEFAULT NULL,
   `conteudo` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `efeitos`
+-- Estrutura para tabela `efeitos`
 --
 
 CREATE TABLE `efeitos` (
   `id` int(11) NOT NULL,
-  `nome` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tipo` enum('buff','debuff') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome` varchar(100) NOT NULL,
+  `descricao` text DEFAULT NULL,
+  `tipo` enum('buff','debuff') DEFAULT NULL,
   `duracao_turnos` int(11) DEFAULT 1,
   `efeito_valor` int(11) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -167,19 +167,19 @@ CREATE TABLE `efeitos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `equipamentos`
+-- Estrutura para tabela `equipamentos`
 --
 
 CREATE TABLE `equipamentos` (
   `id` int(11) NOT NULL,
-  `nome` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tipo` enum('arma','armadura','acessorio','escudo') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome` varchar(100) NOT NULL,
+  `descricao` text DEFAULT NULL,
+  `tipo` enum('arma','armadura','acessorio','escudo') DEFAULT NULL,
   `bonus_forca` int(11) DEFAULT 0,
   `bonus_agilidade` int(11) DEFAULT 0,
   `bonus_inteligencia` int(11) DEFAULT 0,
   `bonus_defesa` int(11) DEFAULT 0,
-  `raridade` enum('comum','raro','epico','lendario') COLLATE utf8mb4_unicode_ci DEFAULT 'comum',
+  `raridade` enum('comum','raro','epico','lendario') DEFAULT 'comum',
   `nivel_minimo` int(11) DEFAULT 1,
   `preco` decimal(10,2) DEFAULT 0.00,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -188,29 +188,29 @@ CREATE TABLE `equipamentos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `eventos`
+-- Estrutura para tabela `eventos`
 --
 
 CREATE TABLE `eventos` (
   `id` int(11) NOT NULL,
-  `titulo` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `titulo` varchar(150) NOT NULL,
+  `descricao` text DEFAULT NULL,
   `data_inicio` datetime DEFAULT NULL,
   `data_fim` datetime DEFAULT NULL,
-  `recompensa` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `recompensa` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `guildas`
+-- Estrutura para tabela `guildas`
 --
 
 CREATE TABLE `guildas` (
   `id` int(11) NOT NULL,
-  `nome` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome` varchar(100) NOT NULL,
+  `descricao` text DEFAULT NULL,
   `id_lider` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -218,38 +218,38 @@ CREATE TABLE `guildas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `guilda_membros`
+-- Estrutura para tabela `guilda_membros`
 --
 
 CREATE TABLE `guilda_membros` (
   `id` int(11) NOT NULL,
   `id_guilda` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `cargo` enum('membro','oficial','lider') COLLATE utf8mb4_unicode_ci DEFAULT 'membro',
+  `cargo` enum('membro','oficial','lider') DEFAULT 'membro',
   `joined_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `habilidades`
+-- Estrutura para tabela `habilidades`
 --
 
 CREATE TABLE `habilidades` (
   `id` int(11) NOT NULL,
-  `nome` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome` varchar(100) NOT NULL,
+  `descricao` text DEFAULT NULL,
   `custo_mana` int(11) DEFAULT 0,
   `dano` int(11) DEFAULT 0,
   `cooldown` int(11) DEFAULT 0,
-  `tipo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tipo` varchar(50) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `inventarios`
+-- Estrutura para tabela `inventarios`
 --
 
 CREATE TABLE `inventarios` (
@@ -262,7 +262,7 @@ CREATE TABLE `inventarios` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `inventario_itens`
+-- Estrutura para tabela `inventario_itens`
 --
 
 CREATE TABLE `inventario_itens` (
@@ -275,47 +275,47 @@ CREATE TABLE `inventario_itens` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `itens`
+-- Estrutura para tabela `itens`
 --
 
 CREATE TABLE `itens` (
   `id` int(11) NOT NULL,
-  `nome` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `raridade` enum('comum','raro','épico','lendário','mítico') COLLATE utf8mb4_unicode_ci DEFAULT 'comum',
-  `tipo_item` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome` varchar(100) NOT NULL,
+  `descricao` text DEFAULT NULL,
+  `raridade` enum('comum','raro','épico','lendário','mítico') DEFAULT 'comum',
+  `tipo_item` varchar(50) DEFAULT NULL,
   `bonus_ataque` int(11) DEFAULT 0,
   `bonus_defesa` int(11) DEFAULT 0,
   `preco` decimal(10,2) DEFAULT 0.00,
-  `imagem` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `imagem` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `logs`
+-- Estrutura para tabela `logs`
 --
 
 CREATE TABLE `logs` (
   `id` int(11) NOT NULL,
   `id_usuario` int(11) DEFAULT NULL,
-  `acao` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `acao` varchar(255) DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `magias`
+-- Estrutura para tabela `magias`
 --
 
 CREATE TABLE `magias` (
   `id` int(11) NOT NULL,
-  `nome` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `elemento` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome` varchar(100) NOT NULL,
+  `descricao` text DEFAULT NULL,
+  `elemento` varchar(50) DEFAULT NULL,
   `custo_mana` int(11) DEFAULT 0,
   `dano` int(11) DEFAULT 0,
   `area_efeito` tinyint(1) DEFAULT 0,
@@ -325,14 +325,14 @@ CREATE TABLE `magias` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `mapas`
+-- Estrutura para tabela `mapas`
 --
 
 CREATE TABLE `mapas` (
   `id` int(11) NOT NULL,
-  `nome` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `imagem` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome` varchar(100) NOT NULL,
+  `descricao` text DEFAULT NULL,
+  `imagem` varchar(255) DEFAULT NULL,
   `nivel_minimo` int(11) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -340,7 +340,7 @@ CREATE TABLE `mapas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `mensagens`
+-- Estrutura para tabela `mensagens`
 --
 
 CREATE TABLE `mensagens` (
@@ -348,38 +348,38 @@ CREATE TABLE `mensagens` (
   `id_remetente` int(11) NOT NULL,
   `id_destinatario` int(11) DEFAULT NULL,
   `id_campanha` int(11) DEFAULT NULL,
-  `mensagem` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mensagem` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `missoes`
+-- Estrutura para tabela `missoes`
 --
 
 CREATE TABLE `missoes` (
   `id` int(11) NOT NULL,
-  `titulo` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `titulo` varchar(150) NOT NULL,
+  `descricao` text DEFAULT NULL,
   `recompensa_xp` int(11) DEFAULT 0,
   `recompensa_ouro` int(11) DEFAULT 0,
   `nivel_recomendado` int(11) DEFAULT 1,
-  `status` enum('ativo','inativo') COLLATE utf8mb4_unicode_ci DEFAULT 'ativo',
+  `status` enum('ativo','inativo') DEFAULT 'ativo',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `notificacoes`
+-- Estrutura para tabela `notificacoes`
 --
 
 CREATE TABLE `notificacoes` (
   `id` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `titulo` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `conteudo` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `titulo` varchar(150) DEFAULT NULL,
+  `conteudo` text DEFAULT NULL,
   `is_read` tinyint(1) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -387,14 +387,14 @@ CREATE TABLE `notificacoes` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `npcs`
+-- Estrutura para tabela `npcs`
 --
 
 CREATE TABLE `npcs` (
   `id` int(11) NOT NULL,
-  `nome` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tipo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome` varchar(100) NOT NULL,
+  `descricao` text DEFAULT NULL,
+  `tipo` varchar(50) DEFAULT NULL,
   `vida` int(11) DEFAULT 100,
   `hostile` tinyint(1) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -403,37 +403,37 @@ CREATE TABLE `npcs` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pagamentos`
+-- Estrutura para tabela `pagamentos`
 --
 
 CREATE TABLE `pagamentos` (
   `id` int(11) NOT NULL,
   `id_pedido` int(11) NOT NULL,
-  `metodo_pagamento` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `codigo_transacao` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `metodo_pagamento` varchar(50) DEFAULT NULL,
+  `codigo_transacao` varchar(100) DEFAULT NULL,
   `valor` decimal(10,2) DEFAULT NULL,
-  `status` enum('pendente','aprovado','rejeitado') COLLATE utf8mb4_unicode_ci DEFAULT 'pendente',
+  `status` enum('pendente','aprovado','rejeitado') DEFAULT 'pendente',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pedidos`
+-- Estrutura para tabela `pedidos`
 --
 
 CREATE TABLE `pedidos` (
   `id` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `total` decimal(10,2) NOT NULL,
-  `status` enum('pendente','pago','cancelado') COLLATE utf8mb4_unicode_ci DEFAULT 'pendente',
+  `status` enum('pendente','pago','cancelado') DEFAULT 'pendente',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pedido_itens`
+-- Estrutura para tabela `pedido_itens`
 --
 
 CREATE TABLE `pedido_itens` (
@@ -447,19 +447,19 @@ CREATE TABLE `pedido_itens` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `permissoes`
+-- Estrutura para tabela `permissoes`
 --
 
 CREATE TABLE `permissoes` (
   `id` int(11) NOT NULL,
-  `role` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nome_permissao` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `role` varchar(50) DEFAULT NULL,
+  `nome_permissao` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `personagem_conquistas`
+-- Estrutura para tabela `personagem_conquistas`
 --
 
 CREATE TABLE `personagem_conquistas` (
@@ -472,7 +472,7 @@ CREATE TABLE `personagem_conquistas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `personagem_efeitos`
+-- Estrutura para tabela `personagem_efeitos`
 --
 
 CREATE TABLE `personagem_efeitos` (
@@ -486,7 +486,7 @@ CREATE TABLE `personagem_efeitos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `personagem_equipamentos`
+-- Estrutura para tabela `personagem_equipamentos`
 --
 
 CREATE TABLE `personagem_equipamentos` (
@@ -500,7 +500,7 @@ CREATE TABLE `personagem_equipamentos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `personagem_habilidades`
+-- Estrutura para tabela `personagem_habilidades`
 --
 
 CREATE TABLE `personagem_habilidades` (
@@ -514,7 +514,7 @@ CREATE TABLE `personagem_habilidades` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `personagem_magias`
+-- Estrutura para tabela `personagem_magias`
 --
 
 CREATE TABLE `personagem_magias` (
@@ -526,14 +526,14 @@ CREATE TABLE `personagem_magias` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `personagem_missoes`
+-- Estrutura para tabela `personagem_missoes`
 --
 
 CREATE TABLE `personagem_missoes` (
   `id` int(11) NOT NULL,
   `id_personagem` int(11) NOT NULL,
   `id_missao` int(11) NOT NULL,
-  `status` enum('em_progresso','concluído','falhou') COLLATE utf8mb4_unicode_ci DEFAULT 'em_progresso',
+  `status` enum('em_progresso','concluído','falhou') DEFAULT 'em_progresso',
   `progresso` int(11) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -541,7 +541,7 @@ CREATE TABLE `personagem_missoes` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `personagens`
+-- Estrutura para tabela `personagens`
 --
 
 CREATE TABLE `personagens` (
@@ -549,7 +549,7 @@ CREATE TABLE `personagens` (
   `id_usuario` int(11) NOT NULL,
   `id_raca` int(11) NOT NULL,
   `id_classe` int(11) NOT NULL,
-  `nome` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nome` varchar(100) NOT NULL,
   `nivel` int(11) DEFAULT 1,
   `experiencia` int(11) DEFAULT 0,
   `vida` int(11) DEFAULT 100,
@@ -564,14 +564,14 @@ CREATE TABLE `personagens` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pets`
+-- Estrutura para tabela `pets`
 --
 
 CREATE TABLE `pets` (
   `id` int(11) NOT NULL,
   `id_personagem` int(11) NOT NULL,
-  `nome` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `especie` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome` varchar(100) DEFAULT NULL,
+  `especie` varchar(100) DEFAULT NULL,
   `nivel` int(11) DEFAULT 1,
   `vida` int(11) DEFAULT 100,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -580,31 +580,31 @@ CREATE TABLE `pets` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `produtos`
+-- Estrutura para tabela `produtos`
 --
 
 CREATE TABLE `produtos` (
   `id` int(11) NOT NULL,
   `id_categoria` int(11) DEFAULT NULL,
-  `nome` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome` varchar(150) NOT NULL,
+  `descricao` text DEFAULT NULL,
   `preco` decimal(10,2) NOT NULL,
   `estoque` int(11) DEFAULT 0,
-  `tipo` enum('físico','virtual') COLLATE utf8mb4_unicode_ci DEFAULT 'virtual',
-  `imagem` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tipo` enum('físico','virtual') DEFAULT 'virtual',
+  `imagem` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `racas`
+-- Estrutura para tabela `racas`
 --
 
 CREATE TABLE `racas` (
   `id` int(11) NOT NULL,
-  `nome` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome` varchar(50) NOT NULL,
+  `descricao` text DEFAULT NULL,
   `bonus_forca` int(11) DEFAULT 0,
   `bonus_agilidade` int(11) DEFAULT 0,
   `bonus_inteligencia` int(11) DEFAULT 0,
@@ -614,35 +614,35 @@ CREATE TABLE `racas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `usuarios`
+-- Estrutura para tabela `usuarios`
 --
 
 CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
-  `nome_usuario` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `senha` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `foto_perfil` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `role` enum('jogador','moderador','gmAdmin') COLLATE utf8mb4_unicode_ci DEFAULT 'jogador',
-  `status` enum('ativo','banido','inativo') COLLATE utf8mb4_unicode_ci DEFAULT 'ativo',
+  `nome_usuario` varchar(50) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `senha` varchar(255) NOT NULL,
+  `foto_perfil` varchar(255) DEFAULT NULL,
+  `role` enum('jogador','moderador','gmAdmin') DEFAULT 'jogador',
+  `status` enum('ativo','banido','inativo') DEFAULT 'ativo',
   `banido_ate` datetime DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Extraindo dados da tabela `usuarios`
+-- Despejando dados para a tabela `usuarios`
 --
 
 INSERT INTO `usuarios` (`id`, `nome_usuario`, `email`, `senha`, `foto_perfil`, `role`, `status`, `banido_ate`, `created_at`, `updated_at`) VALUES
-(1, 'Shenlord', 'matheus@gmail.com', '$2a$10$O0Hi2Wu02ZzfMt3N8mBucelZF.friqClQTVpKAJ.zG4igCZgsNhM2', NULL, 'jogador', 'ativo', NULL, '2026-06-03 17:54:33', '2026-06-03 18:51:58');
+(1, 'Shenlord', 'admin@gmail.com', '$argon2id$v=19$m=65536,t=4,p=1$bm96bWc5RFZCRkxaTHVMRw$KFibG2Ji+ica4uPkkSWGt0JepsCBK4BAUYIDJL266kc', NULL, 'gmAdmin', 'ativo', NULL, '2026-06-09 00:52:15', '2026-06-09 01:07:02');
 
 --
 -- Índices para tabelas despejadas
 --
 
 --
--- Índices para tabela `amizades`
+-- Índices de tabela `amizades`
 --
 ALTER TABLE `amizades`
   ADD PRIMARY KEY (`id`),
@@ -650,13 +650,13 @@ ALTER TABLE `amizades`
   ADD KEY `id_amigo` (`id_amigo`);
 
 --
--- Índices para tabela `campanhas`
+-- Índices de tabela `campanhas`
 --
 ALTER TABLE `campanhas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `campanha_participantes`
+-- Índices de tabela `campanha_participantes`
 --
 ALTER TABLE `campanha_participantes`
   ADD PRIMARY KEY (`id`),
@@ -665,14 +665,14 @@ ALTER TABLE `campanha_participantes`
   ADD KEY `id_personagem` (`id_personagem`);
 
 --
--- Índices para tabela `carrinho`
+-- Índices de tabela `carrinho`
 --
 ALTER TABLE `carrinho`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices para tabela `carrinho_itens`
+-- Índices de tabela `carrinho_itens`
 --
 ALTER TABLE `carrinho_itens`
   ADD PRIMARY KEY (`id`),
@@ -680,26 +680,26 @@ ALTER TABLE `carrinho_itens`
   ADD KEY `id_produto` (`id_produto`);
 
 --
--- Índices para tabela `categorias`
+-- Índices de tabela `categorias`
 --
 ALTER TABLE `categorias`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `classes`
+-- Índices de tabela `classes`
 --
 ALTER TABLE `classes`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `nome` (`nome`);
 
 --
--- Índices para tabela `conquistas`
+-- Índices de tabela `conquistas`
 --
 ALTER TABLE `conquistas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `cronicas`
+-- Índices de tabela `cronicas`
 --
 ALTER TABLE `cronicas`
   ADD PRIMARY KEY (`id`),
@@ -707,25 +707,25 @@ ALTER TABLE `cronicas`
   ADD KEY `id_campanha` (`id_campanha`);
 
 --
--- Índices para tabela `efeitos`
+-- Índices de tabela `efeitos`
 --
 ALTER TABLE `efeitos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `equipamentos`
+-- Índices de tabela `equipamentos`
 --
 ALTER TABLE `equipamentos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `eventos`
+-- Índices de tabela `eventos`
 --
 ALTER TABLE `eventos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `guildas`
+-- Índices de tabela `guildas`
 --
 ALTER TABLE `guildas`
   ADD PRIMARY KEY (`id`),
@@ -733,7 +733,7 @@ ALTER TABLE `guildas`
   ADD KEY `id_lider` (`id_lider`);
 
 --
--- Índices para tabela `guilda_membros`
+-- Índices de tabela `guilda_membros`
 --
 ALTER TABLE `guilda_membros`
   ADD PRIMARY KEY (`id`),
@@ -741,20 +741,20 @@ ALTER TABLE `guilda_membros`
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices para tabela `habilidades`
+-- Índices de tabela `habilidades`
 --
 ALTER TABLE `habilidades`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `inventarios`
+-- Índices de tabela `inventarios`
 --
 ALTER TABLE `inventarios`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id_personagem` (`id_personagem`);
 
 --
--- Índices para tabela `inventario_itens`
+-- Índices de tabela `inventario_itens`
 --
 ALTER TABLE `inventario_itens`
   ADD PRIMARY KEY (`id`),
@@ -762,32 +762,32 @@ ALTER TABLE `inventario_itens`
   ADD KEY `id_item` (`id_item`);
 
 --
--- Índices para tabela `itens`
+-- Índices de tabela `itens`
 --
 ALTER TABLE `itens`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `logs`
+-- Índices de tabela `logs`
 --
 ALTER TABLE `logs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices para tabela `magias`
+-- Índices de tabela `magias`
 --
 ALTER TABLE `magias`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `mapas`
+-- Índices de tabela `mapas`
 --
 ALTER TABLE `mapas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `mensagens`
+-- Índices de tabela `mensagens`
 --
 ALTER TABLE `mensagens`
   ADD PRIMARY KEY (`id`),
@@ -796,40 +796,40 @@ ALTER TABLE `mensagens`
   ADD KEY `id_campanha` (`id_campanha`);
 
 --
--- Índices para tabela `missoes`
+-- Índices de tabela `missoes`
 --
 ALTER TABLE `missoes`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `notificacoes`
+-- Índices de tabela `notificacoes`
 --
 ALTER TABLE `notificacoes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices para tabela `npcs`
+-- Índices de tabela `npcs`
 --
 ALTER TABLE `npcs`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `pagamentos`
+-- Índices de tabela `pagamentos`
 --
 ALTER TABLE `pagamentos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_pedido` (`id_pedido`);
 
 --
--- Índices para tabela `pedidos`
+-- Índices de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices para tabela `pedido_itens`
+-- Índices de tabela `pedido_itens`
 --
 ALTER TABLE `pedido_itens`
   ADD PRIMARY KEY (`id`),
@@ -837,13 +837,13 @@ ALTER TABLE `pedido_itens`
   ADD KEY `id_produto` (`id_produto`);
 
 --
--- Índices para tabela `permissoes`
+-- Índices de tabela `permissoes`
 --
 ALTER TABLE `permissoes`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `personagem_conquistas`
+-- Índices de tabela `personagem_conquistas`
 --
 ALTER TABLE `personagem_conquistas`
   ADD PRIMARY KEY (`id`),
@@ -851,7 +851,7 @@ ALTER TABLE `personagem_conquistas`
   ADD KEY `id_conquista` (`id_conquista`);
 
 --
--- Índices para tabela `personagem_efeitos`
+-- Índices de tabela `personagem_efeitos`
 --
 ALTER TABLE `personagem_efeitos`
   ADD PRIMARY KEY (`id`),
@@ -859,7 +859,7 @@ ALTER TABLE `personagem_efeitos`
   ADD KEY `id_efeito` (`id_efeito`);
 
 --
--- Índices para tabela `personagem_equipamentos`
+-- Índices de tabela `personagem_equipamentos`
 --
 ALTER TABLE `personagem_equipamentos`
   ADD PRIMARY KEY (`id`),
@@ -867,7 +867,7 @@ ALTER TABLE `personagem_equipamentos`
   ADD KEY `id_equipamento` (`id_equipamento`);
 
 --
--- Índices para tabela `personagem_habilidades`
+-- Índices de tabela `personagem_habilidades`
 --
 ALTER TABLE `personagem_habilidades`
   ADD PRIMARY KEY (`id`),
@@ -875,7 +875,7 @@ ALTER TABLE `personagem_habilidades`
   ADD KEY `id_habilidade` (`id_habilidade`);
 
 --
--- Índices para tabela `personagem_magias`
+-- Índices de tabela `personagem_magias`
 --
 ALTER TABLE `personagem_magias`
   ADD PRIMARY KEY (`id`),
@@ -883,7 +883,7 @@ ALTER TABLE `personagem_magias`
   ADD KEY `id_magia` (`id_magia`);
 
 --
--- Índices para tabela `personagem_missoes`
+-- Índices de tabela `personagem_missoes`
 --
 ALTER TABLE `personagem_missoes`
   ADD PRIMARY KEY (`id`),
@@ -891,7 +891,7 @@ ALTER TABLE `personagem_missoes`
   ADD KEY `id_missao` (`id_missao`);
 
 --
--- Índices para tabela `personagens`
+-- Índices de tabela `personagens`
 --
 ALTER TABLE `personagens`
   ADD PRIMARY KEY (`id`),
@@ -900,28 +900,28 @@ ALTER TABLE `personagens`
   ADD KEY `id_classe` (`id_classe`);
 
 --
--- Índices para tabela `pets`
+-- Índices de tabela `pets`
 --
 ALTER TABLE `pets`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_personagem` (`id_personagem`);
 
 --
--- Índices para tabela `produtos`
+-- Índices de tabela `produtos`
 --
 ALTER TABLE `produtos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_categoria` (`id_categoria`);
 
 --
--- Índices para tabela `racas`
+-- Índices de tabela `racas`
 --
 ALTER TABLE `racas`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `nome` (`nome`);
 
 --
--- Índices para tabela `usuarios`
+-- Índices de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`),
@@ -929,7 +929,7 @@ ALTER TABLE `usuarios`
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT de tabelas despejadas
+-- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
@@ -1173,18 +1173,18 @@ ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- Restrições para despejos de tabelas
+-- Restrições para tabelas despejadas
 --
 
 --
--- Limitadores para a tabela `amizades`
+-- Restrições para tabelas `amizades`
 --
 ALTER TABLE `amizades`
   ADD CONSTRAINT `amizades_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`),
   ADD CONSTRAINT `amizades_ibfk_2` FOREIGN KEY (`id_amigo`) REFERENCES `usuarios` (`id`);
 
 --
--- Limitadores para a tabela `campanha_participantes`
+-- Restrições para tabelas `campanha_participantes`
 --
 ALTER TABLE `campanha_participantes`
   ADD CONSTRAINT `campanha_participantes_ibfk_1` FOREIGN KEY (`id_campanha`) REFERENCES `campanhas` (`id`),
@@ -1192,59 +1192,59 @@ ALTER TABLE `campanha_participantes`
   ADD CONSTRAINT `campanha_participantes_ibfk_3` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`);
 
 --
--- Limitadores para a tabela `carrinho`
+-- Restrições para tabelas `carrinho`
 --
 ALTER TABLE `carrinho`
   ADD CONSTRAINT `carrinho_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
 --
--- Limitadores para a tabela `carrinho_itens`
+-- Restrições para tabelas `carrinho_itens`
 --
 ALTER TABLE `carrinho_itens`
   ADD CONSTRAINT `carrinho_itens_ibfk_1` FOREIGN KEY (`id_carrinho`) REFERENCES `carrinho` (`id`),
   ADD CONSTRAINT `carrinho_itens_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`);
 
 --
--- Limitadores para a tabela `cronicas`
+-- Restrições para tabelas `cronicas`
 --
 ALTER TABLE `cronicas`
   ADD CONSTRAINT `cronicas_ibfk_1` FOREIGN KEY (`id_autor`) REFERENCES `usuarios` (`id`),
   ADD CONSTRAINT `cronicas_ibfk_2` FOREIGN KEY (`id_campanha`) REFERENCES `campanhas` (`id`);
 
 --
--- Limitadores para a tabela `guildas`
+-- Restrições para tabelas `guildas`
 --
 ALTER TABLE `guildas`
   ADD CONSTRAINT `guildas_ibfk_1` FOREIGN KEY (`id_lider`) REFERENCES `usuarios` (`id`);
 
 --
--- Limitadores para a tabela `guilda_membros`
+-- Restrições para tabelas `guilda_membros`
 --
 ALTER TABLE `guilda_membros`
   ADD CONSTRAINT `guilda_membros_ibfk_1` FOREIGN KEY (`id_guilda`) REFERENCES `guildas` (`id`),
   ADD CONSTRAINT `guilda_membros_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
 --
--- Limitadores para a tabela `inventarios`
+-- Restrições para tabelas `inventarios`
 --
 ALTER TABLE `inventarios`
   ADD CONSTRAINT `inventarios_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`);
 
 --
--- Limitadores para a tabela `inventario_itens`
+-- Restrições para tabelas `inventario_itens`
 --
 ALTER TABLE `inventario_itens`
   ADD CONSTRAINT `inventario_itens_ibfk_1` FOREIGN KEY (`id_inventario`) REFERENCES `inventarios` (`id`),
   ADD CONSTRAINT `inventario_itens_ibfk_2` FOREIGN KEY (`id_item`) REFERENCES `itens` (`id`);
 
 --
--- Limitadores para a tabela `logs`
+-- Restrições para tabelas `logs`
 --
 ALTER TABLE `logs`
   ADD CONSTRAINT `logs_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
 --
--- Limitadores para a tabela `mensagens`
+-- Restrições para tabelas `mensagens`
 --
 ALTER TABLE `mensagens`
   ADD CONSTRAINT `mensagens_ibfk_1` FOREIGN KEY (`id_remetente`) REFERENCES `usuarios` (`id`),
@@ -1252,74 +1252,74 @@ ALTER TABLE `mensagens`
   ADD CONSTRAINT `mensagens_ibfk_3` FOREIGN KEY (`id_campanha`) REFERENCES `campanhas` (`id`);
 
 --
--- Limitadores para a tabela `notificacoes`
+-- Restrições para tabelas `notificacoes`
 --
 ALTER TABLE `notificacoes`
   ADD CONSTRAINT `notificacoes_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
 --
--- Limitadores para a tabela `pagamentos`
+-- Restrições para tabelas `pagamentos`
 --
 ALTER TABLE `pagamentos`
   ADD CONSTRAINT `pagamentos_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id`);
 
 --
--- Limitadores para a tabela `pedidos`
+-- Restrições para tabelas `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
 --
--- Limitadores para a tabela `pedido_itens`
+-- Restrições para tabelas `pedido_itens`
 --
 ALTER TABLE `pedido_itens`
   ADD CONSTRAINT `pedido_itens_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id`),
   ADD CONSTRAINT `pedido_itens_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`);
 
 --
--- Limitadores para a tabela `personagem_conquistas`
+-- Restrições para tabelas `personagem_conquistas`
 --
 ALTER TABLE `personagem_conquistas`
   ADD CONSTRAINT `personagem_conquistas_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`),
   ADD CONSTRAINT `personagem_conquistas_ibfk_2` FOREIGN KEY (`id_conquista`) REFERENCES `conquistas` (`id`);
 
 --
--- Limitadores para a tabela `personagem_efeitos`
+-- Restrições para tabelas `personagem_efeitos`
 --
 ALTER TABLE `personagem_efeitos`
   ADD CONSTRAINT `personagem_efeitos_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`),
   ADD CONSTRAINT `personagem_efeitos_ibfk_2` FOREIGN KEY (`id_efeito`) REFERENCES `efeitos` (`id`);
 
 --
--- Limitadores para a tabela `personagem_equipamentos`
+-- Restrições para tabelas `personagem_equipamentos`
 --
 ALTER TABLE `personagem_equipamentos`
   ADD CONSTRAINT `personagem_equipamentos_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`),
   ADD CONSTRAINT `personagem_equipamentos_ibfk_2` FOREIGN KEY (`id_equipamento`) REFERENCES `equipamentos` (`id`);
 
 --
--- Limitadores para a tabela `personagem_habilidades`
+-- Restrições para tabelas `personagem_habilidades`
 --
 ALTER TABLE `personagem_habilidades`
   ADD CONSTRAINT `personagem_habilidades_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`),
   ADD CONSTRAINT `personagem_habilidades_ibfk_2` FOREIGN KEY (`id_habilidade`) REFERENCES `habilidades` (`id`);
 
 --
--- Limitadores para a tabela `personagem_magias`
+-- Restrições para tabelas `personagem_magias`
 --
 ALTER TABLE `personagem_magias`
   ADD CONSTRAINT `personagem_magias_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`),
   ADD CONSTRAINT `personagem_magias_ibfk_2` FOREIGN KEY (`id_magia`) REFERENCES `magias` (`id`);
 
 --
--- Limitadores para a tabela `personagem_missoes`
+-- Restrições para tabelas `personagem_missoes`
 --
 ALTER TABLE `personagem_missoes`
   ADD CONSTRAINT `personagem_missoes_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`),
   ADD CONSTRAINT `personagem_missoes_ibfk_2` FOREIGN KEY (`id_missao`) REFERENCES `missoes` (`id`);
 
 --
--- Limitadores para a tabela `personagens`
+-- Restrições para tabelas `personagens`
 --
 ALTER TABLE `personagens`
   ADD CONSTRAINT `personagens_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`),
@@ -1327,13 +1327,13 @@ ALTER TABLE `personagens`
   ADD CONSTRAINT `personagens_ibfk_3` FOREIGN KEY (`id_classe`) REFERENCES `classes` (`id`);
 
 --
--- Limitadores para a tabela `pets`
+-- Restrições para tabelas `pets`
 --
 ALTER TABLE `pets`
   ADD CONSTRAINT `pets_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`);
 
 --
--- Limitadores para a tabela `produtos`
+-- Restrições para tabelas `produtos`
 --
 ALTER TABLE `produtos`
   ADD CONSTRAINT `produtos_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id`);

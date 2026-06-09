@@ -12,7 +12,7 @@
             // Verifica se é administrador ou moderador
             if ($role !== 'gmAdmin' && $role !== 'moderador') {
                 Session::set('erro', 'Acesso negado. Apenas os Mestres do Vácuo possuem tal autoridade.');
-                header('Location: /campanhas');
+                header('Location: /home');
                 exit;
             }
         }

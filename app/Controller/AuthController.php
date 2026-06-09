@@ -82,7 +82,7 @@
             }
     
             // 4. Encriptação segura da palavra-passe (NUNCA guardar em texto limpo)
-            $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+            $senhaHash = password_hash($senha, PASSWORD_ARGON2ID);
     
             // 5. Tenta criar o registo na base de dados
             if ($this->usuarioModel->create($nome, $email, $senhaHash)) {

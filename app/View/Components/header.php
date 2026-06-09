@@ -1,8 +1,7 @@
 <header class="fixed top-0 w-full bg-surface/85 backdrop-blur-md border-b border-outline-variant/30 z-50 transition-all duration-300">
     <div class="max-w-[90rem] mx-auto px-6 h-20 flex items-center justify-between">
         <a href="/" class="flex items-center gap-3 group no-underline">
-            <span class="material-symbols-outlined text-primary text-3xl transition-transform group-hover:scale-110">menu_book</span>
-            <span class="font-headline text-2xl text-on-surface tracking-wide">Eversidian</span>
+            <span class="font-cinzel text-2xl text-on-surface tracking-wide">EVERSIDIAN</span>
         </a>
         
         <nav class="hidden lg:flex items-center gap-8">

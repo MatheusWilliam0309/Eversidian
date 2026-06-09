@@ -15,7 +15,7 @@
 
     // Define o diretório base APENAS para os redirecionamentos do PHP (Headers)
     $pastaBase = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
-    define('BASE_DIR', $pastaBase);
+    define('BASE_DIR', '/' . trim($pastaBase, '/'));
 
     // =========================================================================
     // 2. CAPTURA E LIMPEZA DA URL
@@ -37,7 +37,6 @@
         
         // --- PÁGINAS PÚBLICAS E AUTENTICAÇÃO ---
         case 'home':
-        case '':
             require_once __DIR__ . '/app/View/Home/index.php';
             break;
 
@@ -125,6 +124,17 @@
             } else {
                 // Vitrine principal (Controller busca os dados e inclui a View)
                 $lojaController->index();
+            }
+            break;
+        // --- MÓDULO: PERFIL DO ESCRIBA ---
+        case 'perfil':
+            require_once __DIR__ . '/app/Controller/UsuarioController.php';
+            $usuarioController = new UsuarioController();
+            
+            if ($acao === 'atualizar' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+                $usuarioController->atualizarDados($_POST);
+            } else {
+                $usuarioController->index();
             }
             break;
 
