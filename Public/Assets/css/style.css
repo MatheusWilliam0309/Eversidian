@@ -221,6 +221,16 @@
   }
 }
 @layer utilities {
+  .font-cinzel {
+    font-family: 'Cinzel', serif;
+  }
+  .font-headline {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.05em; /* Dá aquele espaçamento elegante que tens na imagem */
+  }
+  .font-body {
+    font-family: 'Inter', sans-serif;
+  }
   .pointer-events-none {
     pointer-events: none;
   }
@@ -1563,9 +1573,10 @@
   body {
     overflow-x: hidden;
     scroll-behavior: smooth;
-    background-color: var(--color-surface);
-    font-family: var(--font-body);
-    color: var(--color-on-surface);
+    /* Fundo Dark Fantasy e fonte padrão do Eversidian */
+    background: radial-gradient(circle at top, #18181b 0%, #09090b 100%);
+    font-family: var(--font-inter);
+    color: #d4d4d8;
   }
 }
 @layer utilities {

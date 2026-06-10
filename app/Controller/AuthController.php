@@ -11,47 +11,57 @@
         }
 
         public function postLogin($email, $senha) {
-            $usuario = $this->usuarioModel->findByEmail($email);
+            $usuarioModel = new Usuario();
+            $user = $usuarioModel->findByEmail($email); 
 
-            if ($usuario && password_verify($senha, $usuario['senha'])) {
+            if ($user && password_verify($senha, $user['senha'])) {
                 
-                // Verificação do Purgatório (Sistema de Banimento)
-                if ($usuario['status'] === 'banido') {
-                    if ($usuario['banido_ate'] !== null) {
-                        $dataExpiracao = strtotime($usuario['banido_ate']);
+                // --- VERIFICAÇÃO DE JULGAMENTO (BANIMENTO) ---
+                if ($user['status'] === 'banido' || $user['status'] === 'exilado') {
+                    
+                    if (!empty($user['banido_ate'])) {
                         
-                        if (time() > $dataExpiracao) {
-                            // O tempo de punição expirou. A alma está perdoada.
-                            $this->usuarioModel->revogarBanimento($usuario['id']);
-                            $usuario['status'] = 'ativo'; 
-                        } else {
-                            // Ainda está banido temporariamente
-                            $dataAtualizada = date('d/m/Y \à\s H:i', $dataExpiracao);
-                            Session::set('erro', "Sua alma foi exilada do Vácuo até {$dataAtualizada}. Aguarde sua redenção.");
-                            header('Location:' . BASE_DIR . ' /login');
+                        // Define o fuso horário oficial de Brasília
+                        $fusoHorario = new DateTimeZone('America/Sao_Paulo');
+                        
+                        // Instancia as datas forçando o fuso correto
+                        $dataExpiracao = new DateTime($user['banido_ate'], $fusoHorario);
+                        $agora = new DateTime('now', $fusoHorario);
+
+                        if ($agora < $dataExpiracao) {
+                            // Ainda está no período de exílio (Mostra Data e Hora)
+                            $dataFormatada = $dataExpiracao->format('d/m/Y \à\s H:i');
+                            Session::set('erro', "Sua alma está em exílio temporário. O Vácuo o aceitará novamente em {$dataFormatada}.");
+                            header('Location: ' . BASE_DIR . '/login');
                             exit;
+                        } else {
+                            // A pena já foi cumprida! O sistema liberta a alma automaticamente.
+                            // Opcional: Atualizar no banco para status 'ativo' e limpar a coluna 'banido_ate'
+                            $usuarioModel->restaurarStatus($user['id']); 
                         }
                     } else {
-                        // Banido_ate é nulo, logo é banimento permanente
+                        // É um banimento eterno (a coluna banido_ate está vazia/nula)
                         Session::set('erro', 'Sua alma foi banida permanentemente. O Vácuo o rejeita.');
-                        header('Location:' . BASE_DIR . ' /login');
+                        header('Location: ' . BASE_DIR . '/login');
                         exit;
                     }
                 }
 
-                // Se o status for ativo (ou foi perdoado agora), prossegue com o login
-                Session::regenerate(); 
-                Session::set('user_id', $usuario['id']);
-                Session::set('user_name', $usuario['nome_usuario']);
-                Session::set('user_role', $usuario['role']);
+                // --- LOGIN BEM-SUCEDIDO ---
+                Session::set('user_id', $user['id']);
+                Session::set('user_name', $user['nome_usuario']);
+                Session::set('user_email', $user['email']);
+                Session::set('user_role', $user['role']);
+                Session::set('user_foto_perfil', $user['foto_perfil'] ?? null); 
 
-                header('Location:' . BASE_DIR . ' /campanhas');
+                header('Location: ' . BASE_DIR . '/');
+                exit;
+
+            } else {
+                Session::set('erro', 'Credenciais inválidas. O feitiço falhou.');
+                header('Location: ' . BASE_DIR . '/login');
                 exit;
             }
-
-            Session::set('erro', 'Credenciais inválidas. O Vácuo não reconhece você.');
-            header('Location:' . BASE_DIR . ' /login');
-            exit;
         }
 
         public function postCadastro($postData) {

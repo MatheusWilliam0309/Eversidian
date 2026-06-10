@@ -2,10 +2,9 @@
     // =========================================================================
     // 1. INÍCIO DO OUTPUT BUFFERING (Filtro Mágico de Rotas)
     // =========================================================================
-    // O PHP vai segurar todo o HTML e não enviará nada ao navegador até o final.
     ob_start();
 
-    // Exibe erros na tela (Recomendado para ambiente de desenvolvimento local)
+    // Exibe erros na tela (Ambiente de desenvolvimento local)
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
 
@@ -13,19 +12,16 @@
     require_once __DIR__ . '/app/Core/Session.php';
     Session::start();
 
-    // Define o diretório base APENAS para os redirecionamentos do PHP (Headers)
+    // Define o diretório base para os redirecionamentos do PHP (Headers)
     $pastaBase = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
     define('BASE_DIR', '/' . trim($pastaBase, '/'));
 
     // =========================================================================
     // 2. CAPTURA E LIMPEZA DA URL
     // =========================================================================
-    // Pega a URL vinda do .htaccess ou define 'home' como padrão
     $url = isset($_GET['url']) ? rtrim($_GET['url'], '/') : 'home';
     $url = filter_var($url, FILTER_SANITIZE_URL);
 
-    // Quebra a URL em pedaços para saber qual Controller e Método chamar
-    // Ex: "loja/carrinho" vira $rotas[0] = 'loja', $rotas[1] = 'carrinho'
     $rotas = explode('/', $url);
     $pagina = strtolower($rotas[0]);
     $acao = isset($rotas[1]) ? strtolower($rotas[1]) : 'index';
@@ -38,11 +34,11 @@
         // --- PÁGINAS PÚBLICAS E AUTENTICAÇÃO ---
         case 'home':
             require_once __DIR__ . '/app/View/Home/index.php';
-            break;
+        break;
 
         case 'login':
             require_once __DIR__ . '/app/View/Auth/login.php';
-            break;
+        break;
 
         case 'login-processar':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -50,25 +46,25 @@
                 $auth = new AuthController();
                 $auth->postLogin($_POST['email'], $_POST['senha']);
             }
-            break;
+        break;
 
         case 'cadastro':
             require_once __DIR__ . '/app/View/Auth/cadastro.php';
-            break;
+        break;
 
         case 'cadastro-processar':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            require_once __DIR__ . '/app/Controller/AuthController.php';
-            $auth = new AuthController();
-            $auth->postCadastro($_POST); // Assumindo que criará este método no AuthController
-        }
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                require_once __DIR__ . '/app/Controller/AuthController.php';
+                $auth = new AuthController();
+                $auth->postCadastro($_POST);
+            }
         break;
 
         case 'logout':
             require_once __DIR__ . '/app/Controller/AuthController.php';
             $auth = new AuthController();
             $auth->logout();
-            break;
+        break;
 
         // --- MÓDULO: CAMPANHAS ---
         case 'campanhas':
@@ -76,18 +72,17 @@
             $campanhaController = new CampanhaController();
             
             if ($acao === 'nova') {
-                // Em breve criaremos a View de nova campanha
-                echo "<h1>Tela de Criar Nova Campanha</h1>";
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $campanhaController->store($_POST);
+                } else {
+                    require_once __DIR__ . '/app/View/Campanha/nova.php';
+                }
             } elseif ($acao === 'jogar') {
-                // Tela de gameplay com chat e dados
                 echo "<h1>Mesa Virtual (Em construção)</h1>";
             } else {
-                // Lista as campanhas (View gerada na Etapa 4)
-                // Em um sistema final, você chamaria $campanhaController->index();
-                // Aqui vamos chamar a View diretamente para testes visuais:
-                require_once __DIR__ . '/app/View/Campanha/index.php';
+                $campanhaController->index();
             }
-            break;
+        break;
 
         // --- MÓDULO: CRÔNICAS ---
         case 'cronicas':
@@ -96,13 +91,11 @@
             
             if ($acao === 'ler') {
                 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-                // $cronicaController->ler($id);
                 echo "<h1>Lendo Pergaminho {$id}</h1>";
             } else {
-                // Lista todas as crônicas
                 $cronicaController->index();
             }
-            break;
+        break;
 
         // --- MÓDULO: LOJA VIRTUAL ---
         case 'loja':
@@ -110,22 +103,16 @@
             $lojaController = new LojaController();
             
             if ($acao === 'carrinho') {
-                // Exibe a bolsa de itens
                 require_once __DIR__ . '/app/View/Loja/carrinho.php';
             } elseif ($acao === 'adicionar' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Lógica de adicionar ao carrinho
-                echo "Lógica de adicionar: Item " . $_POST['id_produto'];
-            } elseif ($acao === 'remover' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Lógica de descarte
-                echo "Lógica de remover: Item " . $_POST['id_item'];
+                $lojaController->adicionarAoCarrinho($_POST);
             } elseif ($acao === 'checkout' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Lógica de finalização
-                echo "Lógica de checkout iniciada.";
+                $lojaController->finalizarCompra($_POST);
             } else {
-                // Vitrine principal (Controller busca os dados e inclui a View)
                 $lojaController->index();
             }
-            break;
+        break;
+
         // --- MÓDULO: PERFIL DO ESCRIBA ---
         case 'perfil':
             require_once __DIR__ . '/app/Controller/UsuarioController.php';
@@ -136,7 +123,72 @@
             } else {
                 $usuarioController->index();
             }
-            break;
+        break;
+
+        // --- MÓDULO: ADMINISTRAÇÃO (PAINEL DE MESTRE) ---
+        case 'admin':
+            // Segurança absoluta na raiz do módulo administrativo
+            require_once __DIR__ . '/app/Middleware/AdminMiddleware.php';
+            AdminMiddleware::check();
+
+            $subModulo = $acao; 
+            $subAcao = isset($rotas[2]) ? strtolower($rotas[2]) : 'index';
+
+            if ($subModulo === 'index' || $subModulo === 'dashboard') {
+                // Rota padrão central (/admin)
+                include_once __DIR__ . '/app/View/Admin/dashboard.php';
+            } elseif ($subModulo === 'produtos') {
+                require_once __DIR__ . '/app/Controller/AdminProdutoController.php';
+                $controller = new AdminProdutoController();
+                
+                if ($subAcao === 'novo' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $controller->store($_POST);
+                } else {
+                    $controller->index();
+                }
+            } elseif ($subModulo === 'usuarios') {
+                require_once __DIR__ . '/app/Controller/AdminUsuarioController.php';
+                $controller = new AdminUsuarioController();
+                
+                if ($subAcao === 'banir' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $controller->banir($_POST);
+                } elseif ($subAcao === 'revogar' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $controller->revogarBan($_POST);
+                } elseif ($subAcao === 'excluir' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $controller->excluir($_POST);
+                } elseif ($subAcao === 'novo_admin' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $controller->criarAdmin($_POST);
+                } else {
+                    $controller->index();
+                }
+            } elseif ($subModulo === 'pedidos') {
+                require_once __DIR__ . '/app/Controller/AdminPedidoController.php';
+                $controller = new AdminPedidoController();
+                
+                if ($subAcao === 'atualizar' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $idPedido = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+                    $controller->atualizarStatus($idPedido, $_POST['status'] ?? '');
+                } else {
+                    $idPedido = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+                    include_once __DIR__ . '/app/View/Admin/pedidos_lista.php';
+                }
+            } else {
+                http_response_code(404);
+                include_once __DIR__ . '/app/View/Admin/dashboard.php';
+            }
+        break;
+
+        // --- MÓDULO: CONFIGURAÇÕES ---
+        case 'configuracoes':
+            require_once __DIR__ . '/app/Controller/UsuarioController.php';
+            $usuarioController = new UsuarioController();
+            
+            if ($acao === 'atualizar' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+                $usuarioController->atualizarDados($_POST);
+            } else {
+                $usuarioController->configuracoes();
+            }
+        break;
 
         // --- ROTA NÃO ENCONTRADA (404) ---
         default:
@@ -146,30 +198,22 @@
             echo "<p style='color:#d6c692; font-style:italic;'>Este plano místico não existe no Vácuo.</p>";
             echo "<a href='/' style='color:#f95e14; margin-top:20px;'>Retornar ao mundo conhecido</a>";
             echo "</div>";
-            break;
+        break;
     }
 
     // =========================================================================
-    // 4. APLICAÇÃO DO FILTRO (Magia de Rotas) E SAÍDA
+    // 4. APLICAÇÃO DO FILTRO CORRIGIDO CONTRA DUPLICAÇÃO E SAÍDA
     // =========================================================================
-
-    // Captura todo o HTML (Views) gerado pelo sistema até agora e limpa o buffer
     $html = ob_get_clean();
 
-    // Descobre o nome da pasta base onde o sistema está rodando (Ex: "/Eversidian")
     $pastaBase = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
     $pastaBase = rtrim($pastaBase, '/');
 
-    // Se o sistema NÃO estiver na raiz absoluta do servidor, aplica o filtro
     if ($pastaBase !== '') {
-        /* * Expressão Regular (Regex): 
-        * Procura por: href="/ ou src="/ ou action="/ (ignorando se for // do tipo https://)
-        * Substitui por: href="/Eversidian/ ou src="/Eversidian/
-        * Isso mantém o seu código das Views 100% limpo!
-        */
-        $html = preg_replace('/(href|src|action)=["\']\/(?![\/])/', '$1="' . $pastaBase . '/', $html);
+        $pastaBaseClean = trim($pastaBase, '/');
+        // A antecipação negativa (?!...) impede a injeção caso o link já contenha a pasta base ou links relativos/âncoras
+        $html = preg_replace('/(href|src|action)=["\']\/(?!' . preg_quote($pastaBaseClean, '/') . '\/|\/)/', '$1="' . $pastaBase . '/', $html);
     }
 
-    // Envia o HTML final com as rotas corrigidas magicamente para o navegador
     echo $html;
 ?>

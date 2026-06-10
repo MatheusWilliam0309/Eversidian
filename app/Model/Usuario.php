@@ -46,10 +46,57 @@
             ));
         }
 
-        // Novo método para o sistema perdoar a alma automaticamente
-        public function revogarBanimento($id) {
+        public function atualizarFotoPerfil($idUsuario, $nomeArquivo) {
+            $stmt = $this->db->prepare("UPDATE usuarios SET foto_perfil = :foto_perfil WHERE id = :id");
+            return $stmt->execute([
+                'foto_perfil' => $nomeArquivo,
+                'id' => $idUsuario
+            ]);
+        }
+
+        public function atualizarDadosPerfil($idUsuario, $nome, $email) {
+            $stmt = $this->db->prepare("UPDATE usuarios SET nome_usuario = :nome, email = :email WHERE id = :id");
+            return $stmt->execute(['nome' => $nome, 'email' => $email, 'id' => $idUsuario]);
+        }
+
+        public function atualizarSenha($idUsuario, $senhaHash) {
+            $stmt = $this->db->prepare("UPDATE usuarios SET senha = :senha WHERE id = :id");
+            return $stmt->execute(['senha' => $senhaHash, 'id' => $idUsuario]);
+        }
+
+        /**
+         * Forja um novo Mestre do Vácuo (Admin) diretamente.
+         */
+        public function createAdmin($nomeUsuario, $email, $senhaHash) {
+            $stmt = $this->db->prepare("INSERT INTO usuarios (nome_usuario, email, senha, role, status) VALUES (:nome, :email, :senha, 'gmAdmin', 'ativo')");
+            return $stmt->execute([
+                'nome' => $nomeUsuario,
+                'email' => $email,
+                'senha' => $senhaHash
+            ]);
+        }
+
+        /**
+         * Obliterar uma alma do Vácuo (Excluir).
+         */
+        public function delete($id) {
+            try {
+                $stmt = $this->db->prepare("DELETE FROM usuarios WHERE id = :id");
+                return $stmt->execute(['id' => $id]);
+            } catch (PDOException $e) {
+                // Se a alma tiver amarras (personagens, guildas, mensagens), a base de dados relacional (FOREIGN KEY) 
+                // vai impedir a exclusão a menos que essas amarras sejam desfeitas primeiro.
+                return false; 
+            }
+        }
+
+        /**
+         * Restaura o status do utilizador para ativo e limpa a data de banimento.
+         * Utilizado para libertar almas cujo tempo de exílio já expirou.
+         */
+        public function restaurarStatus($id) {
             $stmt = $this->db->prepare("UPDATE usuarios SET status = 'ativo', banido_ate = NULL WHERE id = :id");
-            return $stmt->execute(array('id' => $id));
+            return $stmt->execute(['id' => $id]);
         }
 
         /**

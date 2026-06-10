@@ -7,7 +7,19 @@
 
     class LojaController {
         
+        // Bloqueia o acesso aos Mestres/Admins
+        private function barrarMestres() {
+            Session::start();
+            $role = Session::get('user_role');
+            if ($role === 'gmAdmin' || $role === 'moderador') {
+                Session::set('erro', 'Os Mestres do Vácuo não interferem no comércio mortal.');
+                header('Location: ' . BASE_DIR . '/admin/produtos');
+                exit;
+            }
+        }
+
         public function index() {
+            $this->barrarMestres();
             $produtoModel = new Produto();
             $produtos = $produtoModel->findAll();
             include_once __DIR__ . '/../View/Loja/index.php';
@@ -15,6 +27,7 @@
 
         public function adicionarAoCarrinho($postData) {
             AuthMiddleware::check();
+            $this->barrarMestres();
             
             $idProduto = (int) $postData['id_produto'];
             $quantidade = isset($postData['quantidade']) ? (int) $postData['quantidade'] : 1;
@@ -27,12 +40,13 @@
                 Session::set('erro', 'A magia falhou. Tente novamente.');
             }
 
-            header('Location: /loja');
+            header('Location: ' . BASE_DIR . '/loja');
             exit;
         }
 
         public function verCarrinho() {
             AuthMiddleware::check();
+            $this->barrarMestres();
             $idUsuario = Session::get('user_id');
             
             $carrinhoModel = new Carrinho();
@@ -48,19 +62,20 @@
 
         public function finalizarCompra($postData) {
             AuthMiddleware::check();
+            $this->barrarMestres();
             $idUsuario = Session::get('user_id');
-            $metodoPagamento = $postData['metodo_pagamento']; // 'pix' ou 'cartao'
+            $metodoPagamento = $postData['metodo_pagamento']; 
 
             try {
                 $facade = new LojaFacade();
                 $idPedido = $facade->realizarCheckout($idUsuario, $metodoPagamento);
                 
                 Session::set('sucesso', "Transação concluída. O Vácuo aceitou sua oferenda. (Pedido #$idPedido)");
-                header('Location: /loja/historico');
+                header('Location: ' . BASE_DIR . '/loja/historico');
                 exit;
             } catch (Exception $e) {
                 Session::set('erro', $e->getMessage());
-                header('Location: /loja/carrinho');
+                header('Location: ' . BASE_DIR . '/loja/carrinho');
                 exit;
             }
         }

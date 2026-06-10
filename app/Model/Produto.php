@@ -23,5 +23,20 @@
             $stmt = $this->db->prepare("UPDATE produtos SET estoque = estoque - :qtd WHERE id = :id AND estoque >= :qtd");
             return $stmt->execute(array('qtd' => $quantidade, 'id' => $id));
         }
+
+        // [CREATE] Insere um novo artefato comercial no banco de dados
+        public function create($idCategoria, $nome, $descricao, $preco, $estoque, $tipo, $imagem) {
+            $stmt = $this->db->prepare("INSERT INTO produtos (id_categoria, nome, descricao, preco, estoque, tipo) VALUES (:cat, :nome, :desc, :preco, :estoque, :tipo)");
+            
+            return $stmt->execute(array(
+                'cat' => $idCategoria,
+                'nome' => $nome,
+                'desc' => $descricao,
+                'preco' => $preco,
+                'estoque' => $estoque,
+                'tipo' => $tipo,
+                'imgem' => $imagem
+            ));
+        }
     }
 ?>

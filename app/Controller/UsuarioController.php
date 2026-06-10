@@ -34,32 +34,51 @@
             require_once __DIR__ . '/../View/Perfil/index.php';
         }
 
-        /**
-         * Processa a atualização de dados básicos (Nome e E-mail)
-         */
+        // Novo método para carregar a página
+        public function configuracoes() {
+            AuthMiddleware::check();
+            include_once __DIR__ . '/../View/Perfil/configuracoes.php';
+        }
+
+        // Método de atualização redesenhado
         public function atualizarDados($postData) {
-            Session::start();
-            $id = $_SESSION['user_id'];
-            
+            AuthMiddleware::check();
+            $idUsuario = Session::get('user_id');
             $nome = trim($postData['nome_usuario']);
             $email = trim($postData['email']);
+            $novaSenha = trim($postData['nova_senha']);
+            
+            $usuarioModel = new Usuario();
 
-            if (empty($nome) || empty($email)) {
-                Session::set('erro', 'Os campos de Nome e Selo de Contacto não podem ficar vazios.');
-                header('Location: ' . BASE_DIR . '/perfil');
-                exit;
+            // 1. Upload da Foto de Perfil
+            if (isset($_FILES['foto_perfil']) && $_FILES['foto_perfil']['error'] === UPLOAD_ERR_OK) {
+                $extensao = strtolower(pathinfo($_FILES['foto_perfil']['name'], PATHINFO_EXTENSION));
+                if (in_array($extensao, ['jpg', 'jpeg', 'png', 'webp'])) {
+                    $fotoNome = 'perfil_' . $idUsuario . '_' . time() . '.' . $extensao;
+                    $diretorioDestino = __DIR__ . '/../../Public/Uploads/' . $fotoNome;
+                    
+                    if (move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $diretorioDestino)) {
+                        $usuarioModel->atualizarFotoPerfil($idUsuario, $fotoNome);
+                        $_SESSION['user_foto_perfil'] = $fotoNome; 
+                    }
+                }
             }
 
-            // Atualiza na base de dados (Assumindo que criaremos o método update no Model)
-            if ($this->usuarioModel->update($id, $nome, $email)) {
-                // Atualiza a sessão com o novo nome
-                Session::set('user_name', $nome);
-                Session::set('sucesso', 'Os seus registos foram reescritos com sucesso.');
-            } else {
-                Session::set('erro', 'Falha ao atualizar as antigas escrituras.');
+            // 2. Atualizar Nome e E-mail
+            if (!empty($nome) && !empty($email)) {
+                $usuarioModel->atualizarDadosPerfil($idUsuario, $nome, $email);
+                $_SESSION['user_name'] = $nome;
+                $_SESSION['user_email'] = $email;
             }
 
-            header('Location: ' . BASE_DIR . '/perfil');
+            // 3. Atualizar Senha (Se preenchida usando Argon2id)
+            if (!empty($novaSenha)) {
+                $senhaHash = password_hash($novaSenha, PASSWORD_ARGON2ID);
+                $usuarioModel->atualizarSenha($idUsuario, $senhaHash);
+            }
+            
+            Session::set('sucesso', 'As tuas escrituras e pactos foram atualizados com sucesso.');
+            header('Location: ' . BASE_DIR . '/configuracoes');
             exit;
         }
     }
