@@ -57,14 +57,22 @@
                         <input type="file" name="imagem" accept="image/png, image/jpeg, image/webp" required class="w-full bg-surface-container-lowest border border-outline-variant/50 rounded p-2 text-sm text-secondary/70 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-xs file:font-bold file:uppercase file:tracking-wider file:bg-primary-container/20 file:text-primary-container hover:file:bg-primary-container/30 transition-colors cursor-pointer">
                     </div>
 
+                    <!-- CAMPO CATEGORIA COM LORE DINÂMICA -->
                     <div>
-                        <label class="block text-[0.65rem] font-bold text-secondary/70 uppercase tracking-[0.15em] mb-1">Categoria</label>
-                        <select name="id_categoria" required class="w-full bg-surface-container-lowest border border-outline-variant/50 rounded p-2.5 text-sm focus:border-primary focus:outline-none transition-colors">
-                            <option value="">Selecione...</option>
+                        <label class="block text-[0.65rem] font-bold text-secondary/70 uppercase tracking-[0.15em] mb-1">Categoria do Artefato</label>
+                        <select name="id_categoria" id="seletor_categoria" required class="w-full bg-surface-container-lowest border border-outline-variant/50 rounded p-2.5 text-sm focus:border-primary focus:outline-none transition-colors">
+                            <option value="" data-desc="">Selecione o cofre de destino...</option>
                             <?php foreach($categorias as $cat): ?>
-                                <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['nome']) ?></option>
+                                <option value="<?= $cat['id'] ?>" data-desc="<?= htmlspecialchars($cat['descricao']) ?>">
+                                    <?= htmlspecialchars($cat['nome']) ?>
+                                </option>
                             <?php endforeach; ?>
                         </select>
+                        
+                        <!-- Caixa de Revelação da Descrição (Oculta por padrão) -->
+                        <div id="caixa_descricao_categoria" class="hidden mt-2 p-3 border-l-2 border-[#d6c692]/50 bg-[#d6c692]/5 rounded-r-sm transition-all">
+                            <p id="texto_descricao_categoria" class="text-[9px] text-[0.75rem] font-bold italic leading-relaxed tracking-wide"></p>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
@@ -141,5 +149,29 @@
         </div>
     </main>
     <?php include_once __DIR__ . '/../Components/footer.php'; ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const seletor = document.getElementById('seletor_categoria');
+            const caixaDescricao = document.getElementById('caixa_descricao_categoria');
+            const textoDescricao = document.getElementById('texto_descricao_categoria');
+
+            if (seletor) {
+                seletor.addEventListener('change', function() {
+                    // Pega a opção que o Admin acabou de clicar
+                    const opcaoSelecionada = this.options[this.selectedIndex];
+                    // Puxa a descrição que guardámos no data-desc
+                    const descricao = opcaoSelecionada.getAttribute('data-desc');
+
+                    if (descricao && descricao.trim() !== '') {
+                        textoDescricao.textContent = descricao;
+                        caixaDescricao.classList.remove('hidden');
+                    } else {
+                        caixaDescricao.classList.add('hidden');
+                        textoDescricao.textContent = '';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

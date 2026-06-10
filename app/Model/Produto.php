@@ -26,17 +26,22 @@
 
         // [CREATE] Insere um novo artefato comercial no banco de dados
         public function create($idCategoria, $nome, $descricao, $preco, $estoque, $tipo, $imagem) {
-            $stmt = $this->db->prepare("INSERT INTO produtos (id_categoria, nome, descricao, preco, estoque, tipo) VALUES (:cat, :nome, :desc, :preco, :estoque, :tipo)");
             
-            return $stmt->execute(array(
-                'cat' => $idCategoria,
-                'nome' => $nome,
-                'desc' => $descricao,
-                'preco' => $preco,
-                'estoque' => $estoque,
-                'tipo' => $tipo,
-                'imgem' => $imagem
-            ));
+            $sql = "INSERT INTO produtos (id_categoria, nome, descricao, preco, estoque, tipo, imagem) 
+                    VALUES (:id_categoria, :nome, :descricao, :preco, :estoque, :tipo, :imagem)";
+            
+            $stmt = $this->db->prepare($sql);
+            
+            // O uso explícito dos dois pontos (:) nas chaves do array blinda contra o erro HY093
+            return $stmt->execute([
+                ':id_categoria' => $idCategoria,
+                ':nome'         => $nome,
+                ':descricao'    => $descricao,
+                ':preco'        => $preco,
+                ':estoque'      => $estoque,
+                ':tipo'         => $tipo,
+                ':imagem'       => $imagem
+            ]);
         }
     }
 ?>
