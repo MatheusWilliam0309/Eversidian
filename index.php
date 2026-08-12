@@ -103,7 +103,7 @@
             $lojaController = new LojaController();
             
             if ($acao === 'carrinho') {
-                require_once __DIR__ . '/app/View/Loja/carrinho.php';
+                require_once __DIR__ . '/app/View/Carrinho/index.php';
             } elseif ($acao === 'adicionar' && $_SERVER['REQUEST_METHOD'] === 'POST') {
                 $lojaController->adicionarAoCarrinho($_POST);
             } elseif ($acao === 'checkout' && $_SERVER['REQUEST_METHOD'] === 'POST') {

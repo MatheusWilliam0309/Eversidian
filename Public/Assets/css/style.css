@@ -1985,3 +1985,8 @@
     }
   }
 }
+
+.alerta-sucesso {
+  --color-on-surface: #4ade80; /* Cor verde do Tailwind */
+  color: var(--color-on-surface);
+}

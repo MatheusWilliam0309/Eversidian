@@ -5,8 +5,8 @@
     include_once __DIR__ . '/../Helpers/PedidoBuilder.php';
     include_once __DIR__ . '/../Helpers/PagamentoFactory.php';
     include_once __DIR__ . '/../Model/Log.php';
-    include_once __DIR__ . '/../Helpers/Factories/LojaFisicaFactory.php';
-    include_once __DIR__ . '/../Helpers/Factories/LojaVirtualFactory.php';
+    include_once __DIR__ . '/../Services/Factories/LojaFisicaFactory.php';
+    include_once __DIR__ . '/../Services/Factories/LojaVirtualFactory.php';
 
     class LojaFacade {
         public function realizarCheckout($idUsuario, $metodoPagamento) {
