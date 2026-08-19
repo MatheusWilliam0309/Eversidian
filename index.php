@@ -138,7 +138,7 @@
                 // Rota padrão central (/admin)
                 include_once __DIR__ . '/app/View/Admin/dashboard.php';
             } elseif ($subModulo === 'produtos') {
-                require_once __DIR__ . '/app/Controller/AdminProdutoController.php';
+                require_once __DIR__ . '/app/Controller/Admin/AdminProdutoController.php';
                 $controller = new AdminProdutoController();
                 
                 if ($subAcao === 'novo' && $_SERVER['REQUEST_METHOD'] === 'POST') {

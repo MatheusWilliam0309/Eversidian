@@ -53,8 +53,20 @@
                     </div>
 
                     <div>
-                        <label class="block text-[0.65rem] font-bold text-secondary/70 uppercase tracking-[0.15em] mb-1">Selo Visual (Imagem) *</label>
-                        <input type="file" name="imagem" accept="image/png, image/jpeg, image/webp" required class="w-full bg-surface-container-lowest border border-outline-variant/50 rounded p-2 text-sm text-secondary/70 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-xs file:font-bold file:uppercase file:tracking-wider file:bg-primary-container/20 file:text-primary-container hover:file:bg-primary-container/30 transition-colors cursor-pointer">
+                        <label class="block text-[0.60rem] text-[#8a8a8a] uppercase tracking-widest font-bold mb-1">Selo Visual (Imagem) *</label>
+                        
+                        <!-- Caixa Customizada (Funciona como o botão) -->
+                        <label for="imagem_artefato" class="w-full bg-[#0a0a0a] border border-[#333] hover:border-[#d6c692] rounded-sm p-2 flex items-center gap-3 cursor-pointer transition-colors group">
+                            <span class="bg-[#333] group-hover:bg-[#444] text-white text-[10px] font-bold uppercase tracking-wider py-1 px-3 rounded-sm transition-colors shrink-0">
+                                Procurar Selo
+                            </span>
+                            <span id="nome_arquivo_selecionado" class="text-xs text-[#8a8a8a] truncate">
+                                Nenhum pergaminho selecionado...
+                            </span>
+                        </label>
+                        
+                        <!-- Input Original Escondido -->
+                        <input type="file" name="imagem" id="imagem_artefato" accept="image/png, image/jpeg, image/webp" required style="display: none;">
                     </div>
 
                     <!-- CAMPO CATEGORIA COM LORE DINÂMICA -->
@@ -172,6 +184,26 @@
                 });
             }
         });
+
+        // LÓGICA DO NOME DO ARQUIVO DA IMAGEM
+        const inputImagem = document.getElementById('imagem_artefato');
+        const displayNome = document.getElementById('nome_arquivo_selecionado');
+
+        if (inputImagem && displayNome) {
+            inputImagem.addEventListener('change', function() {
+                if (this.files && this.files.length > 0) {
+                    // Arquivo selecionado: Mostra o nome e muda a cor para dourado
+                    displayNome.textContent = this.files[0].name;
+                    displayNome.classList.remove('text-[#8a8a8a]');
+                    displayNome.classList.add('text-[#d6c692]');
+                } else {
+                    // Nenhum arquivo
+                    displayNome.textContent = 'Nenhum pergaminho selecionado...';
+                    displayNome.classList.remove('text-[#d6c692]');
+                    displayNome.classList.add('text-[#8a8a8a]');
+                }
+            });
+        }
     </script>
 </body>
 </html>

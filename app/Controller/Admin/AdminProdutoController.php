@@ -1,14 +1,14 @@
 <?php
-    include_once __DIR__ . '/../Model/Produto.php';
-    include_once __DIR__ . '/../Model/Categoria.php';
-    include_once __DIR__ . '/../Model/Log.php';
-    include_once __DIR__ . '/../Core/Session.php';
-    include_once __DIR__ . '/../Middleware/AuthMiddleware.php';
-    include_once __DIR__ . '/../Middleware/AdminMiddleware.php';
+    include_once __DIR__ . '/../../Model/Produto.php';
+    include_once __DIR__ . '/../../Model/Categoria.php';
+    include_once __DIR__ . '/../../Model/Log.php';
+    include_once __DIR__ . '/../../Core/Session.php';
+    include_once __DIR__ . '/../../Middleware/AuthMiddleware.php';
+    include_once __DIR__ . '/../../Middleware/AdminMiddleware.php';
     
     // Inclusão das fábricas abstratas existentes para o Factory Method
-    include_once __DIR__ . '/../Helpers/Factories/LojaFisicaFactory.php';
-    include_once __DIR__ . '/../Helpers/Factories/LojaVirtualFactory.php';
+    include_once __DIR__ . '/../../Services/Factories/LojaFisicaFactory.php';
+    include_once __DIR__ . '/../../Services/Factories/LojaVirtualFactory.php';
 
     class AdminProdutoController {
         private $produtoModel;
@@ -34,7 +34,7 @@
 
         public function index() {
             $produtos = $this->produtoModel->findAll(); 
-            include_once __DIR__ . '/../View/Admin/produtos_lista.php';
+            include_once __DIR__ . '/../../View/Admin/produtos_lista.php';
         }
 
         public function store($postData) {
@@ -54,7 +54,10 @@
                 
                 if (in_array($extensao, $extensoesPermitidas)) {
                     $imagemNome = uniqid('item_') . '.' . $extensao;
-                    $diretorioDestino = __DIR__ . '/../../Public/Uploads/' . $imagemNome;
+                    
+                    // Lógica alterada: Apontando para a pasta de imagens de produtos
+                    $diretorioDestino = __DIR__ . '/../../public/assets/img/produtos/' . $imagemNome;
+                    
                     move_uploaded_file($_FILES['imagem']['tmp_name'], $diretorioDestino);
                 } else {
                     Session::set('erro', 'A magia da imagem falhou. Use apenas JPG, PNG ou WEBP.');
