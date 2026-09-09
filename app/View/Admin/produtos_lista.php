@@ -27,16 +27,7 @@
             </div>
         </div>
 
-        <?php if(isset($_SESSION['sucesso'])): ?>
-            <div class="bg-green-900/20 border border-green-500/30 text-green-400 p-4 rounded mb-8 text-sm font-bold tracking-wide shadow-lg">
-                <?= $_SESSION['sucesso']; unset($_SESSION['sucesso']); ?>
-            </div>
-        <?php endif; ?>
-        <?php if(isset($_SESSION['erro'])): ?>
-            <div class="bg-primary-container/20 border border-primary-container/50 text-primary-container p-4 rounded mb-8 text-sm font-bold tracking-wide shadow-lg">
-                <?= $_SESSION['erro']; unset($_SESSION['erro']); ?>
-            </div>
-        <?php endif; ?>
+        <?php include_once __DIR__ . '/../Components/alertas.php'; ?>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             

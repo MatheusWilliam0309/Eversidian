@@ -47,7 +47,8 @@
             $idUsuario = Session::get('user_id');
 
             // --- LÓGICA DE UPLOAD DE IMAGEM ---
-            $imagemNome = 'default_item.png'; // Fallback de segurança
+            $imagemNome = null; // Fallback de segurança
+            
             if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
                 $extensao = strtolower(pathinfo($_FILES['imagem']['name'], PATHINFO_EXTENSION));
                 $extensoesPermitidas = ['jpg', 'jpeg', 'png', 'webp'];
@@ -55,10 +56,25 @@
                 if (in_array($extensao, $extensoesPermitidas)) {
                     $imagemNome = uniqid('item_') . '.' . $extensao;
                     
-                    // Lógica alterada: Apontando para a pasta de imagens de produtos
-                    $diretorioDestino = __DIR__ . '/../../public/assets/img/produtos/' . $imagemNome;
+                    // 1. Apontamos para a pasta unificada oficial (A mesma lida pelo Painel e pela Loja)
+                    // Caminho absoluto à prova de falhas (C:/xampp/htdocs/Eversidian/Public/Uploads)
+                    $pastaDestino = $_SERVER['DOCUMENT_ROOT'] . '/Eversidian/Public/Uploads';
                     
-                    move_uploaded_file($_FILES['imagem']['tmp_name'], $diretorioDestino);
+                    // 2. A MAGIA: Se a pasta não existir no seu XAMPP, o sistema cria-a agora!
+                    if (!is_dir($pastaDestino)) {
+                        mkdir($pastaDestino, 0777, true);
+                    }
+                    
+                    // 3. Monta o caminho final
+                    $caminhoFinal = $pastaDestino . '/' . $imagemNome;
+                    
+                    // 4. Move o ficheiro e trava a execução se o Windows negar permissão
+                    if (!move_uploaded_file($_FILES['imagem']['tmp_name'], $caminhoFinal)) {
+                        Session::set('erro', 'Falha ao forjar imagem: O servidor negou a criação do ficheiro.');
+                        header('Location: ' . BASE_DIR . '/admin/produtos');
+                        exit;
+                    }
+                    
                 } else {
                     Session::set('erro', 'A magia da imagem falhou. Use apenas JPG, PNG ou WEBP.');
                     header('Location: ' . BASE_DIR . '/admin/produtos');
