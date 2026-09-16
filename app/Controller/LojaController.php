@@ -25,6 +25,24 @@
             include_once __DIR__ . '/../View/Loja/index.php';
         }
 
+        // --- NOVO MÉTODO ADICIONADO ---
+        public function verProduto($id) {
+            $this->barrarMestres();
+            
+            $produtoModel = new Produto();
+            $produto = $produtoModel->findById($id); // Busca o artefato pelo ID
+
+            if ($produto) {
+                // Se encontrar, mostra a página de detalhes
+                include_once __DIR__ . '/../View/Loja/produto.php';
+            } else {
+                // Se não encontrar (URL inválida ou deletado), devolve para a loja com erro
+                Session::set('erro', 'O artefato procurado não existe ou foi consumido pelo Vácuo.');
+                header('Location: ' . BASE_DIR . '/loja');
+                exit;
+            }
+        }
+
         public function adicionarAoCarrinho($postData) {
             AuthMiddleware::check();
             $this->barrarMestres();

@@ -35,8 +35,8 @@
                 <?php foreach ($produtos as $produto): ?>
                     <div class="bg-surface-container border border-outline-variant/40 rounded-sm overflow-hidden flex flex-col group hover:-translate-y-1 transition-all hover:shadow-[0_16px_40px_rgba(0,0,0,0.4)]">
                     
-                    <!-- 1. VITRINE DA IMAGEM -->
-                    <div class="w-full relative bg-[#050505] flex items-center justify-center overflow-hidden" style="height: 300px;">
+                    <!-- 1. VITRINE DA IMAGEM (Agora é um link seguro) -->
+                    <a href="<?= BASE_DIR ?>/loja/produto/<?= $produto['id'] ?>" class="block w-full relative bg-[#050505] flex items-center justify-center overflow-hidden cursor-pointer" style="height: 300px;">
                         
                         <?php if(!empty($produto['imagem'])): ?>
                             <img src="<?= BASE_DIR ?>/Public/Uploads/<?= htmlspecialchars($produto['imagem']) ?>" 
@@ -52,15 +52,17 @@
                             <?= htmlspecialchars($produto['tipo']) ?>
                         </span>
 
-                    </div>
+                    </a> <!-- AQUI ESTAVA O PROBLEMA: Esta tag precisava ser </a> e não </div> -->
                     
                     <!-- 3. INFORMAÇÕES E AÇÃO -->
                     <div class="p-5 bg-surface-container border-t border-outline-variant/20 flex flex-col gap-3">
                         
-                        <!-- Nome do Artefato (Limitado a 1 linha para não quebrar o grid) -->
-                        <h3 class="font-headline text-lg text-on-surface line-clamp-1" title="<?= htmlspecialchars($produto['nome']) ?>">
-                            <?= htmlspecialchars($produto['nome']) ?>
-                        </h3>
+                        <!-- Nome do Artefato (Link) -->
+                        <a href="<?= BASE_DIR ?>/loja/produto/<?= $produto['id'] ?>" class="hover:text-primary transition-colors no-underline">
+                            <h3 class="font-headline text-lg text-on-surface line-clamp-1" title="<?= htmlspecialchars($produto['nome']) ?>">
+                                <?= htmlspecialchars($produto['nome']) ?>
+                            </h3>
+                        </a>
                         
                         <!-- Preço e Botão de Compra -->
                         <div class="flex items-center justify-between mt-1">

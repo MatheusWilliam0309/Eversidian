@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09/06/2026 às 03:21
--- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Tempo de geração: 16-Set-2026 às 22:37
+-- Versão do servidor: 10.4.27-MariaDB
+-- versão do PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `amizades`
+-- Estrutura da tabela `amizades`
 --
 
 CREATE TABLE `amizades` (
@@ -38,7 +38,7 @@ CREATE TABLE `amizades` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `campanhas`
+-- Estrutura da tabela `campanhas`
 --
 
 CREATE TABLE `campanhas` (
@@ -53,7 +53,7 @@ CREATE TABLE `campanhas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `campanha_participantes`
+-- Estrutura da tabela `campanha_participantes`
 --
 
 CREATE TABLE `campanha_participantes` (
@@ -68,7 +68,7 @@ CREATE TABLE `campanha_participantes` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `carrinho`
+-- Estrutura da tabela `carrinho`
 --
 
 CREATE TABLE `carrinho` (
@@ -77,10 +77,17 @@ CREATE TABLE `carrinho` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Extraindo dados da tabela `carrinho`
+--
+
+INSERT INTO `carrinho` (`id`, `id_usuario`, `created_at`) VALUES
+(1, 2, '2026-09-16 19:41:55');
+
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `carrinho_itens`
+-- Estrutura da tabela `carrinho_itens`
 --
 
 CREATE TABLE `carrinho_itens` (
@@ -90,10 +97,17 @@ CREATE TABLE `carrinho_itens` (
   `quantidade` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Extraindo dados da tabela `carrinho_itens`
+--
+
+INSERT INTO `carrinho_itens` (`id`, `id_carrinho`, `id_produto`, `quantidade`) VALUES
+(1, 1, 2, 1);
+
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `categorias`
+-- Estrutura da tabela `categorias`
 --
 
 CREATE TABLE `categorias` (
@@ -102,10 +116,23 @@ CREATE TABLE `categorias` (
   `descricao` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Extraindo dados da tabela `categorias`
+--
+
+INSERT INTO `categorias` (`id`, `nome`, `descricao`) VALUES
+(1, 'Tomos & Pergaminhos', 'O conhecimento é a maior arma. Adquira livros de regras, bestiários, suplementos de classes e campanhas prontas (em formato físico ou pergaminhos digitais em PDF).'),
+(2, 'Relíquias dos Cosmos', 'Instrumentos tocados pelo destino. Encontre conjuntos de dados de resina, metal ou osso, torres de rolagem, bolsas de couro e escudos do mestre para a sua mesa.'),
+(3, 'Cartografia do Vácuo', 'O palco da sua lenda. Mapas de batalha detalhados, grids táteis e cenários imersivos prontos para impressão física ou integração na Mesa Virtual (VTT).'),
+(4, 'Efígies & Invocações', 'Dê um rosto aos heróis e aos pesadelos. Miniaturas físicas detalhadas de monstros e personagens, ou arquivos digitais (.STL) para impressão 3D na sua própria forja.'),
+(5, 'Manifestações Arcanas', 'A magia visual para a sua Mesa Virtual (VTT). Pacotes de tokens de personagens, molduras de avatares personalizadas e animações de feitiços e efeitos visuais.'),
+(6, 'Ecos do Além', 'A atmosfera sonora do seu mundo. Trilhas sonoras épicas, melodias de taverna e efeitos de áudio (choques de espadas, tempestades, magias) para aprofundar a imersão da sua narrativa.'),
+(7, 'Espólios & Relicários', 'Traga o Vácuo para o plano real. Action figures detalhadas, réplicas de artefatos, copos de taverna, vestuário oficial e itens de colecionador exclusivos adornados com as marcas do Eversidian.');
+
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `classes`
+-- Estrutura da tabela `classes`
 --
 
 CREATE TABLE `classes` (
@@ -120,7 +147,7 @@ CREATE TABLE `classes` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `conquistas`
+-- Estrutura da tabela `conquistas`
 --
 
 CREATE TABLE `conquistas` (
@@ -134,7 +161,7 @@ CREATE TABLE `conquistas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `cronicas`
+-- Estrutura da tabela `cronicas`
 --
 
 CREATE TABLE `cronicas` (
@@ -151,7 +178,7 @@ CREATE TABLE `cronicas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `efeitos`
+-- Estrutura da tabela `efeitos`
 --
 
 CREATE TABLE `efeitos` (
@@ -167,7 +194,7 @@ CREATE TABLE `efeitos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `equipamentos`
+-- Estrutura da tabela `equipamentos`
 --
 
 CREATE TABLE `equipamentos` (
@@ -188,7 +215,7 @@ CREATE TABLE `equipamentos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `eventos`
+-- Estrutura da tabela `eventos`
 --
 
 CREATE TABLE `eventos` (
@@ -204,7 +231,7 @@ CREATE TABLE `eventos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `guildas`
+-- Estrutura da tabela `guildas`
 --
 
 CREATE TABLE `guildas` (
@@ -218,7 +245,7 @@ CREATE TABLE `guildas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `guilda_membros`
+-- Estrutura da tabela `guilda_membros`
 --
 
 CREATE TABLE `guilda_membros` (
@@ -232,7 +259,7 @@ CREATE TABLE `guilda_membros` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `habilidades`
+-- Estrutura da tabela `habilidades`
 --
 
 CREATE TABLE `habilidades` (
@@ -249,7 +276,7 @@ CREATE TABLE `habilidades` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `inventarios`
+-- Estrutura da tabela `inventarios`
 --
 
 CREATE TABLE `inventarios` (
@@ -262,7 +289,7 @@ CREATE TABLE `inventarios` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `inventario_itens`
+-- Estrutura da tabela `inventario_itens`
 --
 
 CREATE TABLE `inventario_itens` (
@@ -275,7 +302,7 @@ CREATE TABLE `inventario_itens` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `itens`
+-- Estrutura da tabela `itens`
 --
 
 CREATE TABLE `itens` (
@@ -294,7 +321,7 @@ CREATE TABLE `itens` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `logs`
+-- Estrutura da tabela `logs`
 --
 
 CREATE TABLE `logs` (
@@ -305,10 +332,18 @@ CREATE TABLE `logs` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Extraindo dados da tabela `logs`
+--
+
+INSERT INTO `logs` (`id`, `id_usuario`, `acao`, `ip_address`, `created_at`) VALUES
+(1, 1, 'Forjou o artefato com imagem: Artefato Físico: Espada do Poder - He-Man', '::1', '2026-09-16 19:18:21'),
+(2, 1, 'Forjou o artefato com imagem: Artefato Físico: Action Figure Kit Bodega', '::1', '2026-09-16 19:31:35');
+
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `magias`
+-- Estrutura da tabela `magias`
 --
 
 CREATE TABLE `magias` (
@@ -325,7 +360,7 @@ CREATE TABLE `magias` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `mapas`
+-- Estrutura da tabela `mapas`
 --
 
 CREATE TABLE `mapas` (
@@ -340,7 +375,7 @@ CREATE TABLE `mapas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `mensagens`
+-- Estrutura da tabela `mensagens`
 --
 
 CREATE TABLE `mensagens` (
@@ -355,7 +390,7 @@ CREATE TABLE `mensagens` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `missoes`
+-- Estrutura da tabela `missoes`
 --
 
 CREATE TABLE `missoes` (
@@ -372,7 +407,7 @@ CREATE TABLE `missoes` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `notificacoes`
+-- Estrutura da tabela `notificacoes`
 --
 
 CREATE TABLE `notificacoes` (
@@ -387,7 +422,7 @@ CREATE TABLE `notificacoes` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `npcs`
+-- Estrutura da tabela `npcs`
 --
 
 CREATE TABLE `npcs` (
@@ -403,7 +438,7 @@ CREATE TABLE `npcs` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pagamentos`
+-- Estrutura da tabela `pagamentos`
 --
 
 CREATE TABLE `pagamentos` (
@@ -419,7 +454,7 @@ CREATE TABLE `pagamentos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pedidos`
+-- Estrutura da tabela `pedidos`
 --
 
 CREATE TABLE `pedidos` (
@@ -433,7 +468,7 @@ CREATE TABLE `pedidos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pedido_itens`
+-- Estrutura da tabela `pedido_itens`
 --
 
 CREATE TABLE `pedido_itens` (
@@ -447,7 +482,7 @@ CREATE TABLE `pedido_itens` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `permissoes`
+-- Estrutura da tabela `permissoes`
 --
 
 CREATE TABLE `permissoes` (
@@ -459,7 +494,7 @@ CREATE TABLE `permissoes` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `personagem_conquistas`
+-- Estrutura da tabela `personagem_conquistas`
 --
 
 CREATE TABLE `personagem_conquistas` (
@@ -472,7 +507,7 @@ CREATE TABLE `personagem_conquistas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `personagem_efeitos`
+-- Estrutura da tabela `personagem_efeitos`
 --
 
 CREATE TABLE `personagem_efeitos` (
@@ -486,7 +521,7 @@ CREATE TABLE `personagem_efeitos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `personagem_equipamentos`
+-- Estrutura da tabela `personagem_equipamentos`
 --
 
 CREATE TABLE `personagem_equipamentos` (
@@ -500,7 +535,7 @@ CREATE TABLE `personagem_equipamentos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `personagem_habilidades`
+-- Estrutura da tabela `personagem_habilidades`
 --
 
 CREATE TABLE `personagem_habilidades` (
@@ -514,7 +549,7 @@ CREATE TABLE `personagem_habilidades` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `personagem_magias`
+-- Estrutura da tabela `personagem_magias`
 --
 
 CREATE TABLE `personagem_magias` (
@@ -526,7 +561,7 @@ CREATE TABLE `personagem_magias` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `personagem_missoes`
+-- Estrutura da tabela `personagem_missoes`
 --
 
 CREATE TABLE `personagem_missoes` (
@@ -541,7 +576,7 @@ CREATE TABLE `personagem_missoes` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `personagens`
+-- Estrutura da tabela `personagens`
 --
 
 CREATE TABLE `personagens` (
@@ -564,7 +599,7 @@ CREATE TABLE `personagens` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pets`
+-- Estrutura da tabela `pets`
 --
 
 CREATE TABLE `pets` (
@@ -580,7 +615,7 @@ CREATE TABLE `pets` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `produtos`
+-- Estrutura da tabela `produtos`
 --
 
 CREATE TABLE `produtos` (
@@ -595,10 +630,18 @@ CREATE TABLE `produtos` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Extraindo dados da tabela `produtos`
+--
+
+INSERT INTO `produtos` (`id`, `id_categoria`, `nome`, `descricao`, `preco`, `estoque`, `tipo`, `imagem`, `created_at`) VALUES
+(1, 7, 'Espada do Poder - He-Man', 'A Espada do Poder é o símbolo absoluto de força e bravura de Eternia, forjada para canalizar energias cósmicas insondáveis. Com um design brutal e imponente, sua lâmina larga e espessa culmina em uma guarda cruzada icônica, feita para suportar os impactos mais devastadores. Imensa, pesada e de presença inegável, esta relíquia indestrutível não é apenas uma arma formidável, mas a chave lendária destinada àquele que tem a coragem de erguê-la aos céus e reivindicar os segredos do Castelo de Grayskull.', '1500.00', 100, 'físico', 'item_6aaaeb7d5a583.webp', '2026-09-16 19:18:21'),
+(2, 7, 'Action Figure Kit Bodega', 'Esta action figure da Kit traz toda a atitude e a estética vibrante do Gameoverse direto para o mundo físico. Esculpida com atenção meticulosa aos detalhes, a figura captura o design inconfundível da personagem, destacando suas cores marcantes e sua silhueta expressiva. Com múltiplos pontos de articulação premium e pintura de alta qualidade, ela permite recriar poses ágeis e dinâmicas com perfeição. Acompanhada de seus gadgets clássicos e de uma base temática, é uma peça de exibição carismática que traduz toda a energia do seu universo para a escala colecionável.', '300.00', 100, 'físico', 'item_6aaaee97182e5.jpg', '2026-09-16 19:31:35');
+
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `racas`
+-- Estrutura da tabela `racas`
 --
 
 CREATE TABLE `racas` (
@@ -614,7 +657,7 @@ CREATE TABLE `racas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `usuarios`
+-- Estrutura da tabela `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -631,18 +674,19 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `usuarios`
+-- Extraindo dados da tabela `usuarios`
 --
 
 INSERT INTO `usuarios` (`id`, `nome_usuario`, `email`, `senha`, `foto_perfil`, `role`, `status`, `banido_ate`, `created_at`, `updated_at`) VALUES
-(1, 'Shenlord', 'admin@gmail.com', '$argon2id$v=19$m=65536,t=4,p=1$bm96bWc5RFZCRkxaTHVMRw$KFibG2Ji+ica4uPkkSWGt0JepsCBK4BAUYIDJL266kc', NULL, 'gmAdmin', 'ativo', NULL, '2026-06-09 00:52:15', '2026-06-09 01:07:02');
+(1, 'Shenlord', 'admin@gmail.com', '$argon2id$v=19$m=65536,t=4,p=1$bm96bWc5RFZCRkxaTHVMRw$KFibG2Ji+ica4uPkkSWGt0JepsCBK4BAUYIDJL266kc', NULL, 'gmAdmin', 'ativo', NULL, '2026-06-09 00:52:15', '2026-06-09 01:07:02'),
+(2, 'Trombone', 'trombeta@gmail.com', '$argon2id$v=19$m=65536,t=4,p=1$dmxmRm1SRzhULzdrZnpxdg$33mf/oaJXWLcBsd772oFPKfCSlDx5qS9f7TamxlReAo', NULL, 'jogador', 'ativo', NULL, '2026-09-16 18:55:42', '2026-09-16 18:55:42');
 
 --
 -- Índices para tabelas despejadas
 --
 
 --
--- Índices de tabela `amizades`
+-- Índices para tabela `amizades`
 --
 ALTER TABLE `amizades`
   ADD PRIMARY KEY (`id`),
@@ -650,13 +694,13 @@ ALTER TABLE `amizades`
   ADD KEY `id_amigo` (`id_amigo`);
 
 --
--- Índices de tabela `campanhas`
+-- Índices para tabela `campanhas`
 --
 ALTER TABLE `campanhas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `campanha_participantes`
+-- Índices para tabela `campanha_participantes`
 --
 ALTER TABLE `campanha_participantes`
   ADD PRIMARY KEY (`id`),
@@ -665,14 +709,14 @@ ALTER TABLE `campanha_participantes`
   ADD KEY `id_personagem` (`id_personagem`);
 
 --
--- Índices de tabela `carrinho`
+-- Índices para tabela `carrinho`
 --
 ALTER TABLE `carrinho`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices de tabela `carrinho_itens`
+-- Índices para tabela `carrinho_itens`
 --
 ALTER TABLE `carrinho_itens`
   ADD PRIMARY KEY (`id`),
@@ -680,26 +724,26 @@ ALTER TABLE `carrinho_itens`
   ADD KEY `id_produto` (`id_produto`);
 
 --
--- Índices de tabela `categorias`
+-- Índices para tabela `categorias`
 --
 ALTER TABLE `categorias`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `classes`
+-- Índices para tabela `classes`
 --
 ALTER TABLE `classes`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `nome` (`nome`);
 
 --
--- Índices de tabela `conquistas`
+-- Índices para tabela `conquistas`
 --
 ALTER TABLE `conquistas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `cronicas`
+-- Índices para tabela `cronicas`
 --
 ALTER TABLE `cronicas`
   ADD PRIMARY KEY (`id`),
@@ -707,25 +751,25 @@ ALTER TABLE `cronicas`
   ADD KEY `id_campanha` (`id_campanha`);
 
 --
--- Índices de tabela `efeitos`
+-- Índices para tabela `efeitos`
 --
 ALTER TABLE `efeitos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `equipamentos`
+-- Índices para tabela `equipamentos`
 --
 ALTER TABLE `equipamentos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `eventos`
+-- Índices para tabela `eventos`
 --
 ALTER TABLE `eventos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `guildas`
+-- Índices para tabela `guildas`
 --
 ALTER TABLE `guildas`
   ADD PRIMARY KEY (`id`),
@@ -733,7 +777,7 @@ ALTER TABLE `guildas`
   ADD KEY `id_lider` (`id_lider`);
 
 --
--- Índices de tabela `guilda_membros`
+-- Índices para tabela `guilda_membros`
 --
 ALTER TABLE `guilda_membros`
   ADD PRIMARY KEY (`id`),
@@ -741,20 +785,20 @@ ALTER TABLE `guilda_membros`
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices de tabela `habilidades`
+-- Índices para tabela `habilidades`
 --
 ALTER TABLE `habilidades`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `inventarios`
+-- Índices para tabela `inventarios`
 --
 ALTER TABLE `inventarios`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id_personagem` (`id_personagem`);
 
 --
--- Índices de tabela `inventario_itens`
+-- Índices para tabela `inventario_itens`
 --
 ALTER TABLE `inventario_itens`
   ADD PRIMARY KEY (`id`),
@@ -762,32 +806,32 @@ ALTER TABLE `inventario_itens`
   ADD KEY `id_item` (`id_item`);
 
 --
--- Índices de tabela `itens`
+-- Índices para tabela `itens`
 --
 ALTER TABLE `itens`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `logs`
+-- Índices para tabela `logs`
 --
 ALTER TABLE `logs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices de tabela `magias`
+-- Índices para tabela `magias`
 --
 ALTER TABLE `magias`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `mapas`
+-- Índices para tabela `mapas`
 --
 ALTER TABLE `mapas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `mensagens`
+-- Índices para tabela `mensagens`
 --
 ALTER TABLE `mensagens`
   ADD PRIMARY KEY (`id`),
@@ -796,40 +840,40 @@ ALTER TABLE `mensagens`
   ADD KEY `id_campanha` (`id_campanha`);
 
 --
--- Índices de tabela `missoes`
+-- Índices para tabela `missoes`
 --
 ALTER TABLE `missoes`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `notificacoes`
+-- Índices para tabela `notificacoes`
 --
 ALTER TABLE `notificacoes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices de tabela `npcs`
+-- Índices para tabela `npcs`
 --
 ALTER TABLE `npcs`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `pagamentos`
+-- Índices para tabela `pagamentos`
 --
 ALTER TABLE `pagamentos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_pedido` (`id_pedido`);
 
 --
--- Índices de tabela `pedidos`
+-- Índices para tabela `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices de tabela `pedido_itens`
+-- Índices para tabela `pedido_itens`
 --
 ALTER TABLE `pedido_itens`
   ADD PRIMARY KEY (`id`),
@@ -837,13 +881,13 @@ ALTER TABLE `pedido_itens`
   ADD KEY `id_produto` (`id_produto`);
 
 --
--- Índices de tabela `permissoes`
+-- Índices para tabela `permissoes`
 --
 ALTER TABLE `permissoes`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `personagem_conquistas`
+-- Índices para tabela `personagem_conquistas`
 --
 ALTER TABLE `personagem_conquistas`
   ADD PRIMARY KEY (`id`),
@@ -851,7 +895,7 @@ ALTER TABLE `personagem_conquistas`
   ADD KEY `id_conquista` (`id_conquista`);
 
 --
--- Índices de tabela `personagem_efeitos`
+-- Índices para tabela `personagem_efeitos`
 --
 ALTER TABLE `personagem_efeitos`
   ADD PRIMARY KEY (`id`),
@@ -859,7 +903,7 @@ ALTER TABLE `personagem_efeitos`
   ADD KEY `id_efeito` (`id_efeito`);
 
 --
--- Índices de tabela `personagem_equipamentos`
+-- Índices para tabela `personagem_equipamentos`
 --
 ALTER TABLE `personagem_equipamentos`
   ADD PRIMARY KEY (`id`),
@@ -867,7 +911,7 @@ ALTER TABLE `personagem_equipamentos`
   ADD KEY `id_equipamento` (`id_equipamento`);
 
 --
--- Índices de tabela `personagem_habilidades`
+-- Índices para tabela `personagem_habilidades`
 --
 ALTER TABLE `personagem_habilidades`
   ADD PRIMARY KEY (`id`),
@@ -875,7 +919,7 @@ ALTER TABLE `personagem_habilidades`
   ADD KEY `id_habilidade` (`id_habilidade`);
 
 --
--- Índices de tabela `personagem_magias`
+-- Índices para tabela `personagem_magias`
 --
 ALTER TABLE `personagem_magias`
   ADD PRIMARY KEY (`id`),
@@ -883,7 +927,7 @@ ALTER TABLE `personagem_magias`
   ADD KEY `id_magia` (`id_magia`);
 
 --
--- Índices de tabela `personagem_missoes`
+-- Índices para tabela `personagem_missoes`
 --
 ALTER TABLE `personagem_missoes`
   ADD PRIMARY KEY (`id`),
@@ -891,7 +935,7 @@ ALTER TABLE `personagem_missoes`
   ADD KEY `id_missao` (`id_missao`);
 
 --
--- Índices de tabela `personagens`
+-- Índices para tabela `personagens`
 --
 ALTER TABLE `personagens`
   ADD PRIMARY KEY (`id`),
@@ -900,28 +944,28 @@ ALTER TABLE `personagens`
   ADD KEY `id_classe` (`id_classe`);
 
 --
--- Índices de tabela `pets`
+-- Índices para tabela `pets`
 --
 ALTER TABLE `pets`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_personagem` (`id_personagem`);
 
 --
--- Índices de tabela `produtos`
+-- Índices para tabela `produtos`
 --
 ALTER TABLE `produtos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_categoria` (`id_categoria`);
 
 --
--- Índices de tabela `racas`
+-- Índices para tabela `racas`
 --
 ALTER TABLE `racas`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `nome` (`nome`);
 
 --
--- Índices de tabela `usuarios`
+-- Índices para tabela `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`),
@@ -929,7 +973,7 @@ ALTER TABLE `usuarios`
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT para tabelas despejadas
+-- AUTO_INCREMENT de tabelas despejadas
 --
 
 --
@@ -954,19 +998,19 @@ ALTER TABLE `campanha_participantes`
 -- AUTO_INCREMENT de tabela `carrinho`
 --
 ALTER TABLE `carrinho`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `carrinho_itens`
 --
 ALTER TABLE `carrinho_itens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `classes`
@@ -1044,7 +1088,7 @@ ALTER TABLE `itens`
 -- AUTO_INCREMENT de tabela `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `magias`
@@ -1158,7 +1202,7 @@ ALTER TABLE `pets`
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `racas`
@@ -1170,21 +1214,21 @@ ALTER TABLE `racas`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Restrições para tabelas despejadas
+-- Restrições para despejos de tabelas
 --
 
 --
--- Restrições para tabelas `amizades`
+-- Limitadores para a tabela `amizades`
 --
 ALTER TABLE `amizades`
   ADD CONSTRAINT `amizades_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`),
   ADD CONSTRAINT `amizades_ibfk_2` FOREIGN KEY (`id_amigo`) REFERENCES `usuarios` (`id`);
 
 --
--- Restrições para tabelas `campanha_participantes`
+-- Limitadores para a tabela `campanha_participantes`
 --
 ALTER TABLE `campanha_participantes`
   ADD CONSTRAINT `campanha_participantes_ibfk_1` FOREIGN KEY (`id_campanha`) REFERENCES `campanhas` (`id`),
@@ -1192,59 +1236,59 @@ ALTER TABLE `campanha_participantes`
   ADD CONSTRAINT `campanha_participantes_ibfk_3` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`);
 
 --
--- Restrições para tabelas `carrinho`
+-- Limitadores para a tabela `carrinho`
 --
 ALTER TABLE `carrinho`
   ADD CONSTRAINT `carrinho_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
 --
--- Restrições para tabelas `carrinho_itens`
+-- Limitadores para a tabela `carrinho_itens`
 --
 ALTER TABLE `carrinho_itens`
   ADD CONSTRAINT `carrinho_itens_ibfk_1` FOREIGN KEY (`id_carrinho`) REFERENCES `carrinho` (`id`),
   ADD CONSTRAINT `carrinho_itens_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`);
 
 --
--- Restrições para tabelas `cronicas`
+-- Limitadores para a tabela `cronicas`
 --
 ALTER TABLE `cronicas`
   ADD CONSTRAINT `cronicas_ibfk_1` FOREIGN KEY (`id_autor`) REFERENCES `usuarios` (`id`),
   ADD CONSTRAINT `cronicas_ibfk_2` FOREIGN KEY (`id_campanha`) REFERENCES `campanhas` (`id`);
 
 --
--- Restrições para tabelas `guildas`
+-- Limitadores para a tabela `guildas`
 --
 ALTER TABLE `guildas`
   ADD CONSTRAINT `guildas_ibfk_1` FOREIGN KEY (`id_lider`) REFERENCES `usuarios` (`id`);
 
 --
--- Restrições para tabelas `guilda_membros`
+-- Limitadores para a tabela `guilda_membros`
 --
 ALTER TABLE `guilda_membros`
   ADD CONSTRAINT `guilda_membros_ibfk_1` FOREIGN KEY (`id_guilda`) REFERENCES `guildas` (`id`),
   ADD CONSTRAINT `guilda_membros_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
 --
--- Restrições para tabelas `inventarios`
+-- Limitadores para a tabela `inventarios`
 --
 ALTER TABLE `inventarios`
   ADD CONSTRAINT `inventarios_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`);
 
 --
--- Restrições para tabelas `inventario_itens`
+-- Limitadores para a tabela `inventario_itens`
 --
 ALTER TABLE `inventario_itens`
   ADD CONSTRAINT `inventario_itens_ibfk_1` FOREIGN KEY (`id_inventario`) REFERENCES `inventarios` (`id`),
   ADD CONSTRAINT `inventario_itens_ibfk_2` FOREIGN KEY (`id_item`) REFERENCES `itens` (`id`);
 
 --
--- Restrições para tabelas `logs`
+-- Limitadores para a tabela `logs`
 --
 ALTER TABLE `logs`
   ADD CONSTRAINT `logs_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
 --
--- Restrições para tabelas `mensagens`
+-- Limitadores para a tabela `mensagens`
 --
 ALTER TABLE `mensagens`
   ADD CONSTRAINT `mensagens_ibfk_1` FOREIGN KEY (`id_remetente`) REFERENCES `usuarios` (`id`),
@@ -1252,74 +1296,74 @@ ALTER TABLE `mensagens`
   ADD CONSTRAINT `mensagens_ibfk_3` FOREIGN KEY (`id_campanha`) REFERENCES `campanhas` (`id`);
 
 --
--- Restrições para tabelas `notificacoes`
+-- Limitadores para a tabela `notificacoes`
 --
 ALTER TABLE `notificacoes`
   ADD CONSTRAINT `notificacoes_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
 --
--- Restrições para tabelas `pagamentos`
+-- Limitadores para a tabela `pagamentos`
 --
 ALTER TABLE `pagamentos`
   ADD CONSTRAINT `pagamentos_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id`);
 
 --
--- Restrições para tabelas `pedidos`
+-- Limitadores para a tabela `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
 --
--- Restrições para tabelas `pedido_itens`
+-- Limitadores para a tabela `pedido_itens`
 --
 ALTER TABLE `pedido_itens`
   ADD CONSTRAINT `pedido_itens_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id`),
   ADD CONSTRAINT `pedido_itens_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`);
 
 --
--- Restrições para tabelas `personagem_conquistas`
+-- Limitadores para a tabela `personagem_conquistas`
 --
 ALTER TABLE `personagem_conquistas`
   ADD CONSTRAINT `personagem_conquistas_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`),
   ADD CONSTRAINT `personagem_conquistas_ibfk_2` FOREIGN KEY (`id_conquista`) REFERENCES `conquistas` (`id`);
 
 --
--- Restrições para tabelas `personagem_efeitos`
+-- Limitadores para a tabela `personagem_efeitos`
 --
 ALTER TABLE `personagem_efeitos`
   ADD CONSTRAINT `personagem_efeitos_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`),
   ADD CONSTRAINT `personagem_efeitos_ibfk_2` FOREIGN KEY (`id_efeito`) REFERENCES `efeitos` (`id`);
 
 --
--- Restrições para tabelas `personagem_equipamentos`
+-- Limitadores para a tabela `personagem_equipamentos`
 --
 ALTER TABLE `personagem_equipamentos`
   ADD CONSTRAINT `personagem_equipamentos_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`),
   ADD CONSTRAINT `personagem_equipamentos_ibfk_2` FOREIGN KEY (`id_equipamento`) REFERENCES `equipamentos` (`id`);
 
 --
--- Restrições para tabelas `personagem_habilidades`
+-- Limitadores para a tabela `personagem_habilidades`
 --
 ALTER TABLE `personagem_habilidades`
   ADD CONSTRAINT `personagem_habilidades_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`),
   ADD CONSTRAINT `personagem_habilidades_ibfk_2` FOREIGN KEY (`id_habilidade`) REFERENCES `habilidades` (`id`);
 
 --
--- Restrições para tabelas `personagem_magias`
+-- Limitadores para a tabela `personagem_magias`
 --
 ALTER TABLE `personagem_magias`
   ADD CONSTRAINT `personagem_magias_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`),
   ADD CONSTRAINT `personagem_magias_ibfk_2` FOREIGN KEY (`id_magia`) REFERENCES `magias` (`id`);
 
 --
--- Restrições para tabelas `personagem_missoes`
+-- Limitadores para a tabela `personagem_missoes`
 --
 ALTER TABLE `personagem_missoes`
   ADD CONSTRAINT `personagem_missoes_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`),
   ADD CONSTRAINT `personagem_missoes_ibfk_2` FOREIGN KEY (`id_missao`) REFERENCES `missoes` (`id`);
 
 --
--- Restrições para tabelas `personagens`
+-- Limitadores para a tabela `personagens`
 --
 ALTER TABLE `personagens`
   ADD CONSTRAINT `personagens_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`),
@@ -1327,13 +1371,13 @@ ALTER TABLE `personagens`
   ADD CONSTRAINT `personagens_ibfk_3` FOREIGN KEY (`id_classe`) REFERENCES `classes` (`id`);
 
 --
--- Restrições para tabelas `pets`
+-- Limitadores para a tabela `pets`
 --
 ALTER TABLE `pets`
   ADD CONSTRAINT `pets_ibfk_1` FOREIGN KEY (`id_personagem`) REFERENCES `personagens` (`id`);
 
 --
--- Restrições para tabelas `produtos`
+-- Limitadores para a tabela `produtos`
 --
 ALTER TABLE `produtos`
   ADD CONSTRAINT `produtos_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id`);
