@@ -149,13 +149,16 @@ switch ($pagina) {
             if ($subAcao === 'atualizar' && $_SERVER['REQUEST_METHOD'] === 'POST') {
                 $idPedido = isset($_GET['id']) ? (int)$_GET['id'] : 0;
                 $controller->atualizarStatus($idPedido, $_POST['status'] ?? '');
+            } elseif ($subAcao === 'relatorios') {
+                // Nova rota para abrir a tela
+                $controller->relatorios();
+            } elseif ($subAcao === 'exportar') {
+                // Nova rota para processar o download
+                $controller->exportarDashboard();
             } else {
                 $idPedido = isset($_GET['id']) ? (int)$_GET['id'] : 0;
                 include_once __DIR__ . '/../app/View/Admin/pedidos_lista.php';
             }
-        } else {
-            http_response_code(404);
-            include_once __DIR__ . '/../app/View/Admin/dashboard.php';
         }
     break;
 

@@ -2,7 +2,7 @@
     // Busca nativa para alimentar a View, já que o fluxo cruza direto no index.php
     require_once __DIR__ . '/../../Model/Pedido.php';
     require_once __DIR__ . '/../../Core/Database.php';
-    require_once __DIR__ . '/../../Components/alertas.php';
+    require_once __DIR__ . '/../Components/alertas.php';
     $db = Database::getInstance();
     $stmt = $db->query("SELECT p.*, u.nome_usuario, u.email FROM pedidos p JOIN usuarios u ON p.id_usuario = u.id ORDER BY p.created_at DESC");
     $pedidos = $stmt->fetchAll();
